@@ -1,0 +1,13 @@
+{
+    "name": "Ledger",
+    "dockerFile": "Dockerfile",
+    "forwardPorts": [3000],
+
+    "remoteUser": "accountant",
+    "workspaceFolder": "/ledger",
+    "mounts": [
+        "src=${localWorkspaceFolder},dst=/ledger,type=bind",
+    ],
+
+    "extensions": ["ms-python.python"]
+}
