@@ -5,9 +5,7 @@
 
     "remoteUser": "accountant",
     "workspaceFolder": "/ledger",
-    "mounts": [
-        "src=${localWorkspaceFolder},dst=/ledger,type=bind",
-    ],
+    "mounts": ["src=${localWorkspaceFolder},dst=/ledger,type=bind"],
 
-    "extensions": ["ms-python.python"]
+    "extensions": ["ms-python.python", "esbenp.prettier-vscode"]
 }
