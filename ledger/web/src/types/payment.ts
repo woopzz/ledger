@@ -1,4 +1,4 @@
-type Payment = {
+export type Payment = {
   docNo: string; // Номер документа
   date: string; // Дата операции
   amount: number; // Сумма
