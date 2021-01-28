@@ -16,15 +16,16 @@ export type Payment = {
   agentBankCode: string; // МФО банка
 };
 
-export type PaymentsState =
-  | { status: "empty" }
-  | { status: "loading"; msg: string }
-  | { status: "loaded"; list: Payment[] }
-  | { status: "error"; msg: string };
+export type PaymentState = {
+  status: "success" | "error" | "loading";
+  list: Payment[];
+  msg: string;
+};
 
-export type PaymentsAction =
+export type PaymentAction =
   | { type: "request" }
   | { type: "loaded"; list: Payment[] }
-  | { type: "error"; msg: string };
+  | { type: "error"; msg: string }
+  | { type: "closeMsg" };
 
-export type PaymentsResponse = { ok: true; result: Payment[] } | { ok: false; msg: string };
+export type PaymentResponse = { ok: true; result: Payment[] } | { ok: false; msg: string };

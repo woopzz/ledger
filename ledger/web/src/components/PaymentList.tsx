@@ -1,5 +1,4 @@
 import React from "react";
-import { Payment } from "../types/payment";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
@@ -16,6 +15,9 @@ import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+
+import { Payment } from "../types/payment";
+import { PaymentContext } from "../context/PaymentContextProvider";
 
 const useRowStyles = makeStyles({
   root: {
@@ -109,8 +111,10 @@ const Row: React.FC<{ payment: Payment }> = ({ payment }) => {
   );
 };
 
-const PaymentList: React.FC<{ payments: Payment[] }> = (props) => {
-  if (!props.payments.length) {
+const PaymentList: React.FC = () => {
+  const { payments } = React.useContext(PaymentContext);
+
+  if (!payments.list.length) {
     return (
       <div className="empty-payment-list">
         <h3>You have no payments for now.</h3>
@@ -136,7 +140,7 @@ const PaymentList: React.FC<{ payments: Payment[] }> = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.payments.map((payment) => (
+            {payments.list.map((payment) => (
               <Row key={payment.docNo} payment={payment} />
             ))}
           </TableBody>
