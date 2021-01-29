@@ -8,7 +8,7 @@ const ControlPanel: React.FC = () => {
 
   const onchangeInputImport = function (e: React.ChangeEvent<HTMLInputElement>) {
     const file: File | null = e.target?.files && e.target.files[0];
-    if (file === null) return;
+    if (file === null || file === undefined) return;
 
     const formData = new FormData();
     formData.append("fstatement", file);
