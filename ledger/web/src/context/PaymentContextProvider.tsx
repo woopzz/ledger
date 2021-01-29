@@ -1,18 +1,24 @@
 import React from "react";
 import { PaymentState, PaymentAction } from "../types/payment";
 
-const initState: PaymentState = { status: "success", list: [], msg: '' };
+const initState: PaymentState = { status: "success", list: [], msg: "" };
 
 const reducer = (state: PaymentState, action: PaymentAction): PaymentState => {
   switch (action.type) {
     case "loaded":
-      return {status: "success", list: action.list, msg: '' };  // TODO: join both state.list and action.list
+      return { status: "success", list: action.list, msg: "" }; // TODO: join both state.list and action.list
     case "request":
-      return {status: "loading", list: state.list, msg: "Loading the bank statement. Please wait!" };
+      return {
+        status: "loading",
+        list: state.list,
+        msg: "Loading the bank statement. Please wait!",
+      };
     case "error":
-      return {status: "error", list: state.list, msg: action.msg };
+      return { status: "error", list: state.list, msg: action.msg };
     case "closeMsg":
-      return {...state, msg: ''}
+      return { ...state, msg: "" };
+    case "download":
+      return { status: "download", file: action.file, list: state.list, msg: state.msg };
   }
 };
 

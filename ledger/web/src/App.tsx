@@ -6,6 +6,7 @@ import ControlPanel from "./components/ControlPanel";
 import PaymentList from "./components/PaymentList";
 import Message from "./components/Message";
 import Backdrop from "./components/Backdrop";
+import Downloader from "./components/Downloader";
 
 // import logo from "./logo.svg";
 // import "./App.css";
@@ -19,6 +20,7 @@ const App: React.FC<{}> = () => {
         <PaymentList />
         <Message />
         <Backdrop />
+        <Downloader />
       </PaymentContextProvider>
     </div>
   );

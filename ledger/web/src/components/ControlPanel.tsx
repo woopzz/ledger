@@ -1,12 +1,12 @@
 import React from "react";
 
-import { PaymentResponse } from "../types/payment";
+import { PaymentResponse, CSVResponse } from "../types/payment";
 import { PaymentContext } from "../context/PaymentContextProvider";
 
 const ControlPanel: React.FC = () => {
-  const { dispatch } = React.useContext(PaymentContext);
+  const { payments, dispatch } = React.useContext(PaymentContext);
 
-  const onchangeInputImport = function (e: React.ChangeEvent<HTMLInputElement>) {
+  const handleImport = function (e: React.ChangeEvent<HTMLInputElement>) {
     const file: File | null = e.target?.files && e.target.files[0];
     if (file === null || file === undefined) return;
 
@@ -32,9 +32,37 @@ const ControlPanel: React.FC = () => {
       .catch((error: Error) => dispatch({ type: "error", msg: error.message }));
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const body = JSON.stringify(payments.list);
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+
+    dispatch({ type: "request" });
+    fetch("http://localhost:5000/save", { body, headers, method: "post" })
+      .then(
+        (response: Response): Promise<CSVResponse> => {
+          if (!response.ok) throw new Error(response.statusText);
+
+          return response.json();
+        }
+      )
+      .then((data: CSVResponse) => {
+        if (data.ok) {
+          console.log(data.result);
+          dispatch({ type: "download", file: new Blob([data.result]) });
+        } else {
+          dispatch({ type: "error", msg: data.msg });
+        }
+      })
+      .catch((error: Error) => dispatch({ type: "error", msg: error.message }));
+  };
+
   return (
     <div className="control-panel">
-      <input id="input-import" type="file" onChange={onchangeInputImport} />
+      <input type="file" onChange={handleImport} />
+      <button onClick={handleClick}>Save</button>
     </div>
   );
 };
