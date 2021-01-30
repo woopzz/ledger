@@ -46,10 +46,6 @@ class Payment:
         payment_fields = FIELDS_MAPPING.values()
         return cls(**{k: v for k, v in values.items() if k in payment_fields})
 
-    @classmethod
-    def sort_by_date(cls, payments):
-        return sorted(payments, key=lambda x: datetime.datetime.strptime(x.date, '%d.%m.%Y'))
-
     def dump_as_csv_row(self):
         rmapping = {v: k for k, v in FIELDS_MAPPING.items()}
         return {rmapping[k]: v for k, v in asdict(self).items() if k in rmapping}
@@ -74,7 +70,7 @@ def save_payments_to_csv(payments_info):
         writer = csv.DictWriter(text_stream, FIELDS_MAPPING.keys(), delimiter=';', quotechar='"')
 
         writer.writeheader()
-        for payment in Payment.sort_by_date(payments):
+        for payment in payments:
             writer.writerow(payment.dump_as_csv_row())
 
         text_stream.seek(0)
