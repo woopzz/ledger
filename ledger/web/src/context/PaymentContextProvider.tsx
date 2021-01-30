@@ -1,12 +1,30 @@
 import React from "react";
-import { PaymentState, PaymentAction } from "../types/payment";
+import { Payment, PaymentState, PaymentAction } from "../types/payment";
 
 const initState: PaymentState = { status: "success", list: [], msg: "" };
+
+const joinPaymentLists = (fst: Payment[], snd: Payment[]): Payment[] => {
+  const unitedList = fst.slice();
+  const existedDocNumbers: string[] = unitedList.map((x) => x.docNo);
+
+  for (let payment of snd) {
+    if (!existedDocNumbers.includes(payment.docNo)) {
+      unitedList.push(payment);
+      existedDocNumbers.push(payment.docNo);
+    }
+  }
+
+  // allowed date format: yyyy-mm-dd
+  const makeDate = (repr: string): Date => new Date(repr.split('.').reverse().join('-'));
+  unitedList.sort((a: Payment, b: Payment) => makeDate(a.date).getTime() - makeDate(b.date).getTime());
+
+  return unitedList;
+};
 
 const reducer = (state: PaymentState, action: PaymentAction): PaymentState => {
   switch (action.type) {
     case "loaded":
-      return { status: "success", list: action.list, msg: "" }; // TODO: join both state.list and action.list
+      return { status: "success", list: joinPaymentLists(state.list, action.list), msg: "" };
     case "request":
       return {
         status: "loading",
