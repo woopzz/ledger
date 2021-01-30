@@ -58,7 +58,12 @@ class Payment:
         return asdict(self)
 
 def get_payments_info_from_csv(stream):
-    text_stream = StringIO(stream.decode('cp1251'))
+    try:
+        decoded_data = stream.decode('cp1251')
+    except UnicodeDecodeError:
+        decoded_data = stream.decode('utf-8')
+
+    text_stream = StringIO(decoded_data)
     reader = csv.DictReader(text_stream, delimiter=';', quotechar='"')
     return [Payment.load_from_csv(row).dump_as_json() for row in reader]
 
