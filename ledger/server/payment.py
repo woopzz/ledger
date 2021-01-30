@@ -55,8 +55,10 @@ class Payment:
 
 def get_payments_info_from_csv(stream):
     try:
+        # when loads a csv from PrivatBank
         decoded_data = stream.decode('cp1251')
     except UnicodeDecodeError:
+        # when loads a csv that genereated here
         decoded_data = stream.decode('utf-8')
 
     text_stream = StringIO(decoded_data)
