@@ -1,13 +1,12 @@
 import React from "react";
-import { PaymentState, PaymentAction } from "../types/payment";
-import * as utils from '../utils';
+import { PaymentState, PaymentAction, Payment } from "../types/payment";
 
 const initState: PaymentState = { status: "success", list: [], msg: "" };
 
 const reducer = (state: PaymentState, action: PaymentAction): PaymentState => {
   switch (action.type) {
     case "loaded":
-      return { status: "success", list: utils.joinPaymentLists(state.list, action.list), msg: "" };
+      return { status: "success", list: Payment.join(state.list, action.list), msg: "" };
     case "request":
       return {
         status: "loading",

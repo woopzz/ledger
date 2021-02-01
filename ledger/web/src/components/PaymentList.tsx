@@ -16,90 +16,89 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { Payment } from "../types/payment";
+import { Payment, PaymentRow } from "../types/payment";
 import { PaymentContext } from "../context/PaymentContextProvider";
 
 const useRowStyles = makeStyles({
-  root: {
+  row: {
     "& > *": {
       borderBottom: "unset",
     },
   },
+  collapsibleCell: {
+    paddingBottom: 0,
+    paddingTop: 0,
+  },
 });
 
-const Row: React.FC<{ payment: Payment }> = ({ payment }) => {
+const Row: React.FC<{ paymentRow: PaymentRow }> = ({ paymentRow }) => {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <Icon>keyboard_arrow_up</Icon> : <Icon>keyboard_arrow_down</Icon>}
-          </IconButton>
-        </TableCell>
-        <TableCell>{payment.date}</TableCell>
-        <TableCell>{payment.amount}</TableCell>
-        <TableCell />
-        <TableCell>{payment.amount}</TableCell>
-        <TableCell />
-        <TableCell>{payment.amount}</TableCell>
-        <TableCell />
-        <TableCell />
-      </TableRow>
+  let arrowIconButton, collapsibleRow;
+  if (paymentRow.collapsible) {
+    const paymentData = paymentRow.data;
+    arrowIconButton = (
+      <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+        {open ? <Icon>keyboard_arrow_up</Icon> : <Icon>keyboard_arrow_down</Icon>}
+      </IconButton>
+    );
+    collapsibleRow = (
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell className={classes.collapsibleCell} colSpan={9}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <List dense>
                   <ListItem>
-                    <ListItemText primary="Номер документа" secondary={payment.docNo} />
+                    <ListItemText primary="Номер документа" secondary={paymentData.docNo} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Дата операции" secondary={payment.date} />
+                    <ListItemText primary="Дата операции" secondary={paymentData.date} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Сумма" secondary={payment.amount} />
+                    <ListItemText primary="Сумма" secondary={paymentData.amount} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Валюта" secondary={payment.currency} />
+                    <ListItemText primary="Валюта" secondary={paymentData.currency} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Назначение платежа" secondary={payment.note} />
+                    <ListItemText primary="Назначение платежа" secondary={paymentData.note} />
                   </ListItem>
                 </List>
               </Grid>
               <Grid item xs={12} md={6}>
                 <List dense>
                   <ListItem>
-                    <ListItemText primary="Счет" secondary={payment.account} />
+                    <ListItemText primary="Счет" secondary={paymentData.account} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="ЕГРПОУ" secondary={payment.companyRegistry} />
+                    <ListItemText primary="ЕГРПОУ" secondary={paymentData.companyRegistry} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="МФО" secondary={payment.bankCode} />
+                    <ListItemText primary="МФО" secondary={paymentData.bankCode} />
                   </ListItem>
 
                   <ListItem>
-                    <ListItemText primary="Корреспондент" secondary={payment.agent} />
+                    <ListItemText primary="Корреспондент" secondary={paymentData.agent} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Счет корреспондента" secondary={payment.agentAccount} />
+                    <ListItemText
+                      primary="Счет корреспондента"
+                      secondary={paymentData.agentAccount}
+                    />
                   </ListItem>
                   <ListItem>
                     <ListItemText
                       primary="ЕГРПОУ корреспондента"
-                      secondary={payment.agentCompanyRegistry}
+                      secondary={paymentData.agentCompanyRegistry}
                     />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="Название банка" secondary={payment.agentBank} />
+                    <ListItemText primary="Название банка" secondary={paymentData.agentBank} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary="МФО банка" secondary={payment.agentBankCode} />
+                    <ListItemText primary="МФО банка" secondary={paymentData.agentBankCode} />
                   </ListItem>
                 </List>
               </Grid>
@@ -107,14 +106,32 @@ const Row: React.FC<{ payment: Payment }> = ({ payment }) => {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    );
+  }
+
+  return (
+    <>
+      <TableRow className={classes.row}>
+        <TableCell>{arrowIconButton}</TableCell>
+        <TableCell>{paymentRow.date}</TableCell>
+        <TableCell>{paymentRow.amount.toFixed(2)}</TableCell>
+        <TableCell />
+        <TableCell>{paymentRow.amount.toFixed(2)}</TableCell>
+        <TableCell />
+        <TableCell>{paymentRow.amount.toFixed(2)}</TableCell>
+        <TableCell />
+        <TableCell />
+      </TableRow>
+      {collapsibleRow}
+    </>
   );
 };
 
 const PaymentList: React.FC = () => {
   const { payments } = React.useContext(PaymentContext);
+  const rows = Payment.group(payments.list);
 
-  if (!payments.list.length) {
+  if (!rows.length) {
     return (
       <div className="empty-payment-list">
         <h3>You have no payments for now.</h3>
@@ -140,8 +157,8 @@ const PaymentList: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {payments.list.map((payment) => (
-              <Row key={payment.docNo} payment={payment} />
+            {rows.map((row) => (
+              <Row key={row.id} paymentRow={row} />
             ))}
           </TableBody>
         </Table>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PaymentResponse, CSVResponse } from "../types/payment";
+import { PaymentResponse, CSVResponse, Payment } from "../types/payment";
 import { PaymentContext } from "../context/PaymentContextProvider";
 
 const ControlPanel: React.FC = () => {
@@ -24,7 +24,7 @@ const ControlPanel: React.FC = () => {
       )
       .then((data: PaymentResponse) => {
         if (data.ok) {
-          dispatch({ type: "loaded", list: data.result });
+          dispatch({ type: "loaded", list: data.result.map(x => new Payment(x)) });
         } else {
           dispatch({ type: "error", msg: data.msg });
         }
@@ -33,7 +33,7 @@ const ControlPanel: React.FC = () => {
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const body = JSON.stringify(payments.list);
+    const body = JSON.stringify(payments.list.map(x => x.data));
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json",
