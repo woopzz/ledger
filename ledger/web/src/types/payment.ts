@@ -103,6 +103,17 @@ export class Payment {
         // Keep in mind! The month param in the constructor is a zero-based value.
         const nextMonthDate = new Date(currentYear, currentMonth, 1);
 
+        if (monthAmount && today >= nextMonthDate) {
+          const displayName = `${String(currentMonth).padStart(2, "0")}.${currentYear}`;
+          result.push({
+            id: displayName,
+            date: displayName,
+            amount: monthAmount,
+            collapsible: false,
+          });
+          yearAmount += monthAmount;
+        }
+
         if ([3, 6, 9, 12].includes(currentMonth)) {
           if (quarterAmount && today >= nextMonthDate) {
             const displayName = `${currentMonth / 3} кв. ${currentYear}`;
@@ -114,17 +125,6 @@ export class Payment {
             });
             quarterAmount = 0;
           }
-        }
-
-        if (monthAmount && today >= nextMonthDate) {
-          const displayName = `${String(currentMonth).padStart(2, "0")}.${currentYear}`;
-          result.push({
-            id: displayName,
-            date: displayName,
-            amount: monthAmount,
-            collapsible: false,
-          });
-          yearAmount += monthAmount;
         }
       }
 
