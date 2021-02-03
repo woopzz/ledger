@@ -16,6 +16,21 @@ export type PaymentData = {
   readonly agentBankCode: string; // МФО банка
 };
 
+export type PaymentRow =
+  | {
+      readonly id: Payment["data"]["docNo"];
+      readonly date: Payment["data"]["date"];
+      readonly amount: number;
+      readonly collapsible: true;
+      readonly data: PaymentData;
+    }
+  | {
+      readonly id: string;
+      readonly date: string;
+      readonly amount: number;
+      readonly collapsible: false;
+    };
+
 export class Payment {
   readonly data: PaymentData;
   readonly date: Date;
@@ -125,37 +140,3 @@ export class Payment {
     return result;
   }
 }
-
-export type PaymentState =
-  | {
-      status: "success" | "error" | "loading";
-      list: Payment[];
-      msg: string;
-    }
-  | { status: "download"; file: Blob; list: Payment[]; msg: string };
-
-export type PaymentAction =
-  | { type: "request" }
-  | { type: "loaded"; list: Payment[] }
-  | { type: "error"; msg: string }
-  | { type: "closeMsg" }
-  | { type: "download"; file: Blob };
-
-export type PaymentResponse = { ok: true; result: PaymentData[] } | { ok: false; msg: string };
-
-export type CSVResponse = { ok: true; result: string } | { ok: false; msg: string };
-
-export type PaymentRow =
-  | {
-      readonly id: Payment["data"]["docNo"];
-      readonly date: Payment["data"]["date"];
-      readonly amount: number;
-      readonly collapsible: true;
-      readonly data: PaymentData;
-    }
-  | {
-      readonly id: string;
-      readonly date: string;
-      readonly amount: number;
-      readonly collapsible: false;
-    };

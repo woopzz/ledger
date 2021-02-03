@@ -1,5 +1,5 @@
 import React from "react";
-import { PaymentState, PaymentAction, Payment } from "../types/payment";
+import { PaymentState, PaymentAction, Payment } from "../types";
 
 const initState: PaymentState = { status: "success", list: [], msg: "" };
 

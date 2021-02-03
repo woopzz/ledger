@@ -1,17 +1,13 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { PaymentContextProvider } from "./context/PaymentContextProvider";
-import ControlPanel from "./components/ControlPanel";
-import PaymentList from "./components/PaymentList";
-import Message from "./components/Message";
-import Backdrop from "./components/Backdrop";
-import Downloader from "./components/Downloader";
+import { PaymentContextProvider } from "./context";
+import { Backdrop, ControlPanel, PaymentList, Message, Downloader } from "./components";
 
 // import logo from "./logo.svg";
 // import "./App.css";
 
-const App: React.FC<{}> = () => {
+const App: React.FC = () => {
   return (
     <div className="App">
       <CssBaseline />

@@ -1,9 +1,6 @@
 import React from "react";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import Icon from "@material-ui/core/Icon";
-
-import { PaymentContext } from "../context/PaymentContextProvider";
+import { Snackbar, IconButton, Icon } from "@material-ui/core";
+import { PaymentContext } from "../context";
 
 interface MessageSnackbarProps {
   msg: string;

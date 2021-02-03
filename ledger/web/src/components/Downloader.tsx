@@ -1,15 +1,11 @@
 import React from "react";
-
-import Dialog from "@material-ui/core/Dialog";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from '@material-ui/core/styles';
-
-import { PaymentContext } from "../context/PaymentContextProvider";
+import { Dialog, Button, makeStyles } from "@material-ui/core";
+import { PaymentContext } from "../context";
 
 const useStyles = makeStyles({
   link: {
-    padding: '1em',
-  }
+    padding: "1em",
+  },
 });
 
 const Downloader: React.FC = () => {
@@ -17,8 +13,8 @@ const Downloader: React.FC = () => {
   const { payments, dispatch } = React.useContext(PaymentContext);
 
   const handleOnClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    dispatch({'type': 'loaded', list: payments.list});
-  }
+    dispatch({ type: "loaded", list: payments.list });
+  };
 
   let dialog;
   if (payments.status === "download") {

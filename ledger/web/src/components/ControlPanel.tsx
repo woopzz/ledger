@@ -1,13 +1,12 @@
 import React from "react";
-
-import { PaymentResponse, CSVResponse, Payment } from "../types/payment";
-import { PaymentContext } from "../context/PaymentContextProvider";
+import { PaymentResponse, CSVResponse, Payment } from "../types";
+import { PaymentContext } from "../context";
 
 const ControlPanel: React.FC = () => {
   const { payments, dispatch } = React.useContext(PaymentContext);
 
   const handleImport = function (e: React.ChangeEvent<HTMLInputElement>) {
-    const file: File | null = e.target?.files && e.target.files[0];
+    const file = e.target?.files && e.target.files[0];
     if (file === null || file === undefined) return;
 
     const formData = new FormData();
@@ -24,7 +23,7 @@ const ControlPanel: React.FC = () => {
       )
       .then((data: PaymentResponse) => {
         if (data.ok) {
-          dispatch({ type: "loaded", list: data.result.map(x => new Payment(x)) });
+          dispatch({ type: "loaded", list: data.result.map((x) => new Payment(x)) });
         } else {
           dispatch({ type: "error", msg: data.msg });
         }
@@ -33,7 +32,7 @@ const ControlPanel: React.FC = () => {
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const body = JSON.stringify(payments.list.map(x => x.data));
+    const body = JSON.stringify(payments.list.map((x) => x.data));
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -50,7 +49,6 @@ const ControlPanel: React.FC = () => {
       )
       .then((data: CSVResponse) => {
         if (data.ok) {
-          console.log(data.result);
           dispatch({ type: "download", file: new Blob([data.result]) });
         } else {
           dispatch({ type: "error", msg: data.msg });
