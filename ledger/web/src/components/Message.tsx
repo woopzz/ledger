@@ -2,12 +2,12 @@ import React from "react";
 import { Snackbar, IconButton, Icon } from "@material-ui/core";
 import { PaymentContext } from "../context";
 
-interface MessageSnackbarProps {
+interface IMessageSnackbarProps {
   msg: string;
   handleClose: () => void;
 }
 
-const MessageSnackbar: React.FC<MessageSnackbarProps> = ({ msg, handleClose }) => {
+const MessageSnackbar: React.FC<IMessageSnackbarProps> = ({ msg, handleClose }) => {
   return (
     <Snackbar
       open={true}

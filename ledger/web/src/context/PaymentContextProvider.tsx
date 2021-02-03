@@ -22,10 +22,12 @@ const reducer = (state: PaymentState, action: PaymentAction): PaymentState => {
   }
 };
 
-export const PaymentContext = React.createContext<{
+interface IPaymentContext {
   payments: PaymentState;
   dispatch: React.Dispatch<PaymentAction>;
-}>({
+}
+
+export const PaymentContext = React.createContext<IPaymentContext>({
   payments: initState,
   dispatch: () => null,
 });
