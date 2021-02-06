@@ -1,12 +1,22 @@
 import React from "react";
+import { Toolbar, Button, Icon, makeStyles } from "@material-ui/core";
+
 import { Payment, PaymentData } from "../types";
 import { PaymentContext } from "../context";
 import * as api from "../api";
 
+const useStyles = makeStyles({
+  toolbar: {
+    justifyContent: "center",
+  },
+});
+
 const ControlPanel: React.FC = () => {
   const { payments, dispatch } = React.useContext(PaymentContext);
+  const classes = useStyles();
+  const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
-  const handleImport = function (e: React.ChangeEvent<HTMLInputElement>) {
+  const handleImportChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target?.files && e.target.files[0];
     if (file === null || file === undefined) return;
 
@@ -22,7 +32,9 @@ const ControlPanel: React.FC = () => {
       .catch((error: Error) => dispatch({ type: "error", msg: error.message }));
   };
 
-  const handleClick = () => {
+  const handleImportClick = () => inputFileRef.current?.click();
+
+  const handleSaveClick = () => {
     const data = JSON.stringify(payments.list.map((x) => x.data));
 
     dispatch({ type: "request" });
@@ -33,10 +45,15 @@ const ControlPanel: React.FC = () => {
   };
 
   return (
-    <div className="control-panel">
-      <input type="file" onChange={handleImport} />
-      <button onClick={handleClick}>Save</button>
-    </div>
+    <Toolbar className={classes.toolbar}>
+      <input ref={inputFileRef} hidden type="file" onChange={handleImportChange} />
+      <Button startIcon={<Icon>file_upload</Icon>} onClick={handleImportClick}>
+        Импорт
+      </Button>
+      <Button startIcon={<Icon>file_download</Icon>} onClick={handleSaveClick}>
+        Экспорт
+      </Button>
+    </Toolbar>
   );
 };
 

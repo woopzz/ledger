@@ -1,15 +1,20 @@
 import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { CssBaseline, makeStyles } from "@material-ui/core";
 
 import { PaymentContextProvider } from "./context";
 import { Backdrop, ControlPanel, PaymentList, Message, Downloader } from "./components";
 
-// import logo from "./logo.svg";
-// import "./App.css";
+const useStyles = makeStyles({
+  app: {
+    maxWidth: "1140px",
+    margin: "10px auto",
+  },
+});
 
 const App: React.FC = () => {
+  const classes = useStyles();
   return (
-    <div className="App">
+    <div className={classes.app}>
       <CssBaseline />
       <PaymentContextProvider>
         <ControlPanel />

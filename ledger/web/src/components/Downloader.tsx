@@ -21,7 +21,6 @@ const Downloader: React.FC = () => {
     dialog = (
       <Dialog aria-labelledby="simple-dialog-title" open>
         <Button
-          color="primary"
           className={classes.link}
           href={window.URL.createObjectURL(payments.file)}
           download="payments.csv"

@@ -7,6 +7,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TablePagination,
   TableContainer,
   TableHead,
   TableRow,
@@ -21,9 +22,17 @@ import { Payment, PaymentRow } from "../types";
 import { PaymentContext } from "../context";
 
 const useRowStyles = makeStyles({
-  row: {
-    "& > *": {
-      borderBottom: "unset",
+  container: {
+    "& td, & th": {
+      border: "1px solid black",
+      width: "12%",
+      textAlign: "center",
+    },
+    "& tr > *:first-child": {
+      width: "4%",
+    },
+    "& tr[hidden]": {
+      display: "none",
     },
   },
   collapsibleCell: {
@@ -45,7 +54,7 @@ const Row: React.FC<{ paymentRow: PaymentRow }> = ({ paymentRow }) => {
       </IconButton>
     );
     collapsibleRow = (
-      <TableRow>
+      <TableRow hidden={!open}>
         <TableCell className={classes.collapsibleCell} colSpan={9}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Grid container spacing={2}>
@@ -112,7 +121,7 @@ const Row: React.FC<{ paymentRow: PaymentRow }> = ({ paymentRow }) => {
 
   return (
     <>
-      <TableRow className={classes.row}>
+      <TableRow>
         <TableCell>{arrowIconButton}</TableCell>
         <TableCell>{paymentRow.date}</TableCell>
         <TableCell>{paymentRow.amount.toFixed(2)}</TableCell>
@@ -130,7 +139,21 @@ const Row: React.FC<{ paymentRow: PaymentRow }> = ({ paymentRow }) => {
 
 const PaymentList: React.FC = () => {
   const { payments } = React.useContext(PaymentContext);
+  const classes = useRowStyles();
+
   const rows = Payment.group(payments.list);
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(33);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   if (!rows.length) {
     return (
@@ -142,7 +165,16 @@ const PaymentList: React.FC = () => {
 
   return (
     <div className="payment-list">
-      <TableContainer component={Paper}>
+      <TableContainer className={classes.container} component={Paper}>
+        <TablePagination
+          rowsPerPageOptions={[33]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
@@ -158,7 +190,7 @@ const PaymentList: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
               <Row key={row.id} paymentRow={row} />
             ))}
           </TableBody>
