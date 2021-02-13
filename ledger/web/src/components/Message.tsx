@@ -1,44 +1,35 @@
 import React from "react";
 import { Snackbar, IconButton, Icon } from "@material-ui/core";
-import { PaymentContext } from "../context";
 
-interface IMessageSnackbarProps {
-  msg: string;
-  handleClose: () => void;
+type MessageProps = {
+  text: string,
+  onDismiss: () => void,
 }
 
-const MessageSnackbar: React.FC<IMessageSnackbarProps> = ({ msg, handleClose }) => {
+const Message: React.FC<MessageProps> = ({ text, onDismiss }) => {
+  if (!text) return null;
+
   return (
     <Snackbar
-      open={true}
+      open
       autoHideDuration={6000}
-      message={msg}
+      message={text}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "right",
       }}
       action={
-        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={() => onDismiss()}
+        >
           <Icon>close</Icon>
         </IconButton>
       }
     />
   );
-};
-
-const Message: React.FC = () => {
-  const { payments, dispatch } = React.useContext(PaymentContext);
-
-  const handleClose = () => {
-    dispatch({ type: "closeMsg" });
-  };
-
-  let messageSnackbar;
-  if (payments.status === "error" && payments.msg) {
-    messageSnackbar = <MessageSnackbar msg={payments.msg} handleClose={handleClose} />;
-  }
-
-  return <div className="message">{messageSnackbar}</div>;
 };
 
 export default Message;

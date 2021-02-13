@@ -1,7 +1,6 @@
 import React from "react";
 import { CircularProgress, Backdrop as MaterialBackdrop } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { PaymentContext } from "../context";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,15 +11,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Backdrop: React.FC = () => {
+const Backdrop: React.FC<{show: boolean}> = ({show}) => {
   const classes = useStyles();
 
-  const { payments } = React.useContext(PaymentContext);
-  const open = payments.status === "loading";
+  if (!show) return null;
 
   return (
     <div>
-      <MaterialBackdrop className={classes.backdrop} open={open}>
+      <MaterialBackdrop open className={classes.backdrop}>
         <CircularProgress color="inherit" />
       </MaterialBackdrop>
     </div>

@@ -16,7 +16,7 @@ export type PaymentData = {
   readonly agentBankCode: string; // МФО банка
 };
 
-export type PaymentRow =
+export type PaymentTableInfo =
   | {
       readonly id: Payment["data"]["docNo"];
       readonly date: Payment["data"]["date"];
@@ -34,19 +34,19 @@ export type PaymentRow =
 export class Payment {
   readonly data: PaymentData;
   readonly date: Date;
-  readonly row: PaymentRow;
+  readonly row: PaymentTableInfo;
 
   constructor(data: PaymentData) {
     this.data = data;
     this.date = this.makeDate(data.date);
-    this.row = this.makePaymentRow();
+    this.row = this.makeTableInfo();
   }
 
   private makeDate(repr: PaymentData["date"]): Date {
     return new Date(repr.split(".").reverse().join("-"));
   }
 
-  private makePaymentRow(): PaymentRow {
+  private makeTableInfo(): PaymentTableInfo {
     return {
       id: this.data.docNo,
       date: this.data.date,
@@ -72,11 +72,11 @@ export class Payment {
     return unitedList;
   }
 
-  static group(payments: Payment[]): PaymentRow[] {
+  static group(payments: Payment[]): PaymentTableInfo[] {
     /* Keep in mind! The implementation assumes that the payment list is ordered previously. */
     if (!payments.length) return [];
 
-    let result: PaymentRow[] = [];
+    let result: PaymentTableInfo[] = [];
     const today = new Date();
 
     let currentYear = payments[0].date.getFullYear();

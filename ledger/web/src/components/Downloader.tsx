@@ -1,6 +1,5 @@
 import React from "react";
 import { Dialog, Button, makeStyles } from "@material-ui/core";
-import { PaymentContext } from "../context";
 
 const useStyles = makeStyles({
   link: {
@@ -8,31 +7,28 @@ const useStyles = makeStyles({
   },
 });
 
-const Downloader: React.FC = () => {
+type DownloaderProps = {
+  blob: Blob | null;
+  doAfterDownload: () => void;
+};
+
+const Downloader: React.FC<DownloaderProps> = ({ blob, doAfterDownload }) => {
   const classes = useStyles();
-  const { payments, dispatch } = React.useContext(PaymentContext);
 
-  const handleOnClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    dispatch({ type: "loaded", list: payments.list });
-  };
+  if (blob === null) return null;
 
-  let dialog;
-  if (payments.status === "download") {
-    dialog = (
-      <Dialog aria-labelledby="simple-dialog-title" open>
-        <Button
-          className={classes.link}
-          href={window.URL.createObjectURL(payments.file)}
-          download="payments.csv"
-          onClick={handleOnClick}
-        >
-          Download your CSV
-        </Button>
-      </Dialog>
-    );
-  }
-
-  return <div className="downloader">{dialog}</div>;
+  return (
+    <Dialog open onClose={() => doAfterDownload()}>
+      <Button
+        className={classes.link}
+        href={window.URL.createObjectURL(blob)}
+        download="payments.csv"
+        onClick={() => doAfterDownload()}
+      >
+        Download your CSV
+      </Button>
+    </Dialog>
+  );
 };
 
 export default Downloader;

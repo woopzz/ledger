@@ -1,4 +1,4 @@
-type APIResponse = { ok: true; result: any } | { ok: false; msg: string };
+import { APIResponse } from '../types/api';
 
 const makeRequest = async (path: string, options: RequestInit) => {
   const response = await fetch(path, options);
