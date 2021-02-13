@@ -1,11 +1,5 @@
 import React from "react";
-import { Dialog, Button, makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles({
-  link: {
-    padding: "1em",
-  },
-});
+import { Dialog, Button } from "@material-ui/core";
 
 type DownloaderProps = {
   blob: Blob | null;
@@ -13,14 +7,12 @@ type DownloaderProps = {
 };
 
 const Downloader: React.FC<DownloaderProps> = ({ blob, doAfterDownload }) => {
-  const classes = useStyles();
-
   if (blob === null) return null;
 
   return (
     <Dialog open onClose={() => doAfterDownload()}>
       <Button
-        className={classes.link}
+        className="download-button"
         href={window.URL.createObjectURL(blob)}
         download="payments.csv"
         onClick={() => doAfterDownload()}

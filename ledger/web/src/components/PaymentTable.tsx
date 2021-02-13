@@ -8,31 +8,12 @@ import {
   TableHead,
   TableRow,
   Paper,
-  makeStyles,
 } from "@material-ui/core";
 
 import { Payment } from "../types/payment";
 import PaymentTableRow from "./PaymentTableRow";
 
-const useRowStyles = makeStyles({
-  container: {
-    "& td, & th": {
-      border: "1px solid black",
-      width: "12%",
-      textAlign: "center",
-    },
-    "& tr > *:first-child": {
-      width: "4%",
-    },
-    "& tr[hidden]": {
-      display: "none",
-    },
-  },
-});
-
 const PaymentTable: React.FC<{ payments: Payment[] }> = ({ payments }) => {
-  const classes = useRowStyles();
-
   const rowsPerPage = 33;
   const [page, setPage] = React.useState(0);
 
@@ -46,7 +27,7 @@ const PaymentTable: React.FC<{ payments: Payment[] }> = ({ payments }) => {
   }
 
   return (
-    <TableContainer className={classes.container} component={Paper}>
+    <TableContainer className="table-container" component={Paper}>
       <TablePagination
         rowsPerPageOptions={[rowsPerPage]}
         component="div"

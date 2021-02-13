@@ -1,11 +1,5 @@
 import React from "react";
-import { Toolbar, Button, Icon, makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles({
-  toolbar: {
-    justifyContent: "center",
-  },
-});
+import { Toolbar, Button, Icon } from "@material-ui/core";
 
 type ControlPanelProps = {
   importHandler: (file: File) => void;
@@ -13,7 +7,6 @@ type ControlPanelProps = {
 }
 
 const ControlPanel: React.FC<ControlPanelProps> = ({ importHandler, exportHandler }) => {
-  const classes = useStyles();
   const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +15,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ importHandler, exportHandle
   };
 
   return (
-    <Toolbar className={classes.toolbar}>
+    <Toolbar className="toolbar">
       <input ref={inputFileRef} hidden type="file" onChange={onChangeInput} />
       <Button startIcon={<Icon>file_upload</Icon>} onClick={() => inputFileRef.current?.click()}>
         Импорт

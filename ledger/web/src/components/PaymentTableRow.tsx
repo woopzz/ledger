@@ -9,21 +9,12 @@ import {
   List,
   ListItem,
   ListItemText,
-  makeStyles,
 } from "@material-ui/core";
 
 import { PaymentTableInfo } from "../types/payment";
 
-const useRowStyles = makeStyles({
-  collapsibleCell: {
-    paddingBottom: 0,
-    paddingTop: 0,
-  },
-});
-
 const PaymentTableRow: React.FC<{ paymentRow: PaymentTableInfo }> = ({ paymentRow }) => {
   const [open, setOpen] = React.useState(false);
-  const classes = useRowStyles();
 
   let arrowIconButton, collapsibleRow;
   if (paymentRow.collapsible) {
@@ -35,7 +26,7 @@ const PaymentTableRow: React.FC<{ paymentRow: PaymentTableInfo }> = ({ paymentRo
     );
     collapsibleRow = (
       <TableRow hidden={!open}>
-        <TableCell className={classes.collapsibleCell} colSpan={9}>
+        <TableCell className="table-collapsible-cell" colSpan={9}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>

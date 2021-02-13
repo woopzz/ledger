@@ -1,7 +1,4 @@
 body {
-  margin: 10px auto !important;
-  max-width: 1140px !important;
-
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -9,7 +6,40 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.app {
+    margin: 10px auto;
+    max-width: 1140px;
+}
+
+.app .backdrop {
+    z-index: 777;
+    color: #fff;
+}
+
+.app .toolbar {
+    justify-content: center;
+}
+
+.app .download-button {
+    padding: 1em;
+}
+
+.app .table-container td,
+.app .table-container th {
+    border: 1px solid black;
+    width: 12%;
+    text-align: center;
+}
+
+.app .table-container tr > *:first-child {
+    width: 4%;
+}
+
+.app .table-container tr[hidden] {
+    display: none;
+}
+
+.app .table-collapsible-cell {
+    padding-bottom: 0;
+    padding-top: 0;
 }
