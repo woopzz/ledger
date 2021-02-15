@@ -20,7 +20,6 @@ class Payment {
       id: this.data.docNo,
       date: this.data.date,
       amount: parseFloat(this.data.amount.replaceAll(" ", "")),
-      collapsible: true,
       data: this.data,
     };
   }
@@ -78,7 +77,7 @@ class Payment {
             id: displayName,
             date: displayName,
             amount: monthAmount,
-            collapsible: false,
+            data: null,
           });
           yearAmount += monthAmount;
         }
@@ -90,7 +89,7 @@ class Payment {
               id: displayName,
               date: displayName,
               amount: quarterAmount,
-              collapsible: false,
+              data: null,
             });
             quarterAmount = 0;
           }
@@ -102,7 +101,7 @@ class Payment {
           id: String(currentYear),
           date: String(currentYear),
           amount: yearAmount,
-          collapsible: false,
+          data: null,
         });
     }
 

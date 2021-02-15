@@ -3,11 +3,9 @@ import { CircularProgress, Backdrop as MaterialBackdrop } from "@material-ui/cor
 
 const Backdrop: React.FC = () => {
   return (
-    <div>
-      <MaterialBackdrop open className="backdrop">
-        <CircularProgress color="inherit" />
-      </MaterialBackdrop>
-    </div>
+    <MaterialBackdrop open className="backdrop">
+      <CircularProgress color="inherit" />
+    </MaterialBackdrop>
   );
 };
 

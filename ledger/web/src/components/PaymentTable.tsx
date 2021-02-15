@@ -1,62 +1,57 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TablePagination,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@material-ui/core";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 
-import Payment from "../services/payment";
-import PaymentTableRow from "./PaymentTableRow";
+import { PaymentData, PaymentTableInfo } from "../types/payment";
 
-const PaymentTable: React.FC<{ payments: Payment[] }> = ({ payments }) => {
-  const rowsPerPage = 33;
-  const [page, setPage] = React.useState(0);
+type PTRProps = {
+  paymentRow: PaymentTableInfo;
+  onClick: () => void;
+};
 
-  const rows = Payment.group(payments);
-  if (!rows.length) {
-    return (
-      <div className="empty-payment-list">
-        <h3>You have no payments for now.</h3>
-      </div>
-    );
-  }
+const PaymentTableRow: React.FC<PTRProps> = ({ paymentRow, onClick }) => {
+  const hasShadeOnHover = paymentRow.data !== null;
+  const className = hasShadeOnHover ? "hover" : "";
 
   return (
-    <TableContainer className="table-container" component={Paper}>
-      <TablePagination
-        rowsPerPageOptions={[rowsPerPage]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={(e, page: number) => setPage(page)}
-      />
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>1</TableCell>
-            <TableCell>2</TableCell>
-            <TableCell>3</TableCell>
-            <TableCell>4</TableCell>
-            <TableCell>5</TableCell>
-            <TableCell>6</TableCell>
-            <TableCell>7</TableCell>
-            <TableCell>8</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            <PaymentTableRow key={row.id} paymentRow={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <TableRow hover={hasShadeOnHover} className={className} onClick={onClick}>
+      <TableCell>{paymentRow.date}</TableCell>
+      <TableCell>{paymentRow.amount.toFixed(2)}</TableCell>
+      <TableCell />
+      <TableCell>{paymentRow.amount.toFixed(2)}</TableCell>
+      <TableCell />
+      <TableCell>{paymentRow.amount.toFixed(2)}</TableCell>
+      <TableCell />
+      <TableCell />
+    </TableRow>
+  );
+};
+
+type PaymentTableProps = {
+  rows: PaymentTableInfo[];
+  onRowClick: (data: PaymentData | null) => void;
+};
+
+const PaymentTable: React.FC<PaymentTableProps> = ({ rows, onRowClick }) => {
+  return (
+    <Table aria-label="collapsible table">
+      <TableHead>
+        <TableRow>
+          <TableCell>1</TableCell>
+          <TableCell>2</TableCell>
+          <TableCell>3</TableCell>
+          <TableCell>4</TableCell>
+          <TableCell>5</TableCell>
+          <TableCell>6</TableCell>
+          <TableCell>7</TableCell>
+          <TableCell>8</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row) => (
+          <PaymentTableRow key={row.id} paymentRow={row} onClick={() => onRowClick(row.data)} />
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 

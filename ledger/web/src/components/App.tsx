@@ -8,7 +8,7 @@ import * as api from "../api";
 import Message from "./Message";
 import ControlPanel from "./ControlPanel";
 import Downloader from "./Downloader";
-import PaymentTable from "./PaymentTable";
+import PaymentTableContainer from "./PaymentTableContainer";
 import Backdrop from "./Backdrop";
 
 type AppProps = {};
@@ -41,10 +41,10 @@ class App extends React.Component<AppProps, AppState> {
       <div className="app">
         <CssBaseline />
         <ControlPanel importHandler={this.parseCSV} exportHandler={this.exportPayments} />
-        <PaymentTable payments={this.state.payments} />
+        <PaymentTableContainer payments={this.state.payments} />
         <Downloader blob={this.state.csvBlob} doAfterDownload={this.doAfterDownload} />
         <Message text={this.state.error} onDismiss={this.dismissMessage} />
-        { this.state.showBackdrop && <Backdrop /> }
+        {this.state.showBackdrop && <Backdrop />}
       </div>
     );
   }

@@ -8,6 +8,7 @@ body {
 
 .app {
     margin: 10px auto;
+    padding: 10px;
     max-width: 1140px;
 }
 
@@ -27,12 +28,12 @@ body {
 .app .table-container td,
 .app .table-container th {
     border: 1px solid black;
-    width: 12%;
+    width: 12.5% !important;
     text-align: center;
 }
 
-.app .table-container tr > *:first-child {
-    width: 4%;
+.app .table-container tr.hover {
+    cursor: pointer;
 }
 
 .app .table-container tr[hidden] {

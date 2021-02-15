@@ -16,17 +16,9 @@ export type PaymentData = {
   readonly agentBankCode: string; // МФО банка
 };
 
-export type PaymentTableInfo =
-  | {
-      readonly id: string;
-      readonly date: string;
-      readonly amount: number;
-      readonly collapsible: true;
-      readonly data: PaymentData;
-    }
-  | {
-      readonly id: string;
-      readonly date: string;
-      readonly amount: number;
-      readonly collapsible: false;
-    };
+export type PaymentTableInfo = {
+  readonly id: string;
+  readonly date: string;
+  readonly amount: number;
+  readonly data: PaymentData | null;
+};
