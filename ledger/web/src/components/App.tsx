@@ -44,7 +44,7 @@ class App extends React.Component<AppProps, AppState> {
         <PaymentTable payments={this.state.payments} />
         <Downloader blob={this.state.csvBlob} doAfterDownload={this.doAfterDownload} />
         <Message text={this.state.error} onDismiss={this.dismissMessage} />
-        <Backdrop show={this.state.showBackdrop} />
+        { this.state.showBackdrop && <Backdrop /> }
       </div>
     );
   }
