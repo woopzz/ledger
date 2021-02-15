@@ -20,26 +20,29 @@ type AppState = {
 };
 
 class App extends React.Component<AppProps, AppState> {
-  state: AppState = {
-    payments: [],
-    error: "",
-    csvBlob: null,
-    showBackdrop: false,
-  };
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {
+      payments: [],
+      error: "",
+      csvBlob: null,
+      showBackdrop: false,
+    };
+
+    this.parseCSV = this.parseCSV.bind(this);
+    this.exportPayments = this.exportPayments.bind(this);
+    this.dismissMessage = this.dismissMessage.bind(this);
+    this.doAfterDownload = this.doAfterDownload.bind(this);
+  }
 
   render() {
-    const parseCSV = this.parseCSV.bind(this);
-    const exportPayments = this.exportPayments.bind(this);
-    const dismissMessage = this.dismissMessage.bind(this);
-    const doAfterDownload = this.doAfterDownload.bind(this);
-
     return (
       <div className="app">
         <CssBaseline />
-        <ControlPanel importHandler={parseCSV} exportHandler={exportPayments} />
+        <ControlPanel importHandler={this.parseCSV} exportHandler={this.exportPayments} />
         <PaymentTable payments={this.state.payments} />
-        <Downloader blob={this.state.csvBlob} doAfterDownload={doAfterDownload} />
-        <Message text={this.state.error} onDismiss={dismissMessage} />
+        <Downloader blob={this.state.csvBlob} doAfterDownload={this.doAfterDownload} />
+        <Message text={this.state.error} onDismiss={this.dismissMessage} />
         <Backdrop show={this.state.showBackdrop} />
       </div>
     );
