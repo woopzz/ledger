@@ -10,7 +10,7 @@ import {
   Paper,
 } from "@material-ui/core";
 
-import { Payment } from "../types/payment";
+import Payment from "../services/payment";
 import PaymentTableRow from "./PaymentTableRow";
 
 const PaymentTable: React.FC<{ payments: Payment[] }> = ({ payments }) => {

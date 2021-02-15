@@ -1,8 +1,9 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
+import { PaymentData } from "../types/payment";
+import Payment from "../services/payment";
 import * as api from "../api";
-import { Payment, PaymentData } from "../types/payment";
 
 import Message from "./Message";
 import ControlPanel from "./ControlPanel";
