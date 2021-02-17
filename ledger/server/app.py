@@ -1,22 +1,18 @@
-from flask import Blueprint, request, jsonify
+import os
+
+from flask import Flask, Blueprint, request, jsonify
 from werkzeug.datastructures import FileStorage
 
-from .payment import get_payments_info_from_csv, save_payments_to_csv
+from payment import get_payments_info_from_csv, save_payments_to_csv
 
-main = Blueprint('main', __name__)
+STATIC_FOLDER = os.environ['STATIC_ROOT']
+app = Flask(__name__, static_folder=STATIC_FOLDER, static_url_path='/')
 
-@main.after_request
-def after_request(response):
-    header = response.headers
-    header['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-    header['Access-Control-Allow-Headers'] = 'Content-Type'
-    return response
-
-@main.route('/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def home():
-    return 'Hi!'
+    return app.send_static_file('index.html')
 
-@main.route('/save', methods=['POST'])
+@app.route('/save', methods=['POST'])
 def payments():
     if request.is_json:
         payments_info = request.json
@@ -25,7 +21,7 @@ def payments():
     else:
         return jsonify({'ok': False, 'msg': 'Invalid request type.'})
 
-@main.route('/parsecsv', methods=['POST'])
+@app.route('/parsecsv', methods=['POST'])
 def parsecsv():
     if 'fstatement' in request.files:
         fstatement = request.files['fstatement']
