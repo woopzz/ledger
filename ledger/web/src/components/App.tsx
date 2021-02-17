@@ -55,7 +55,7 @@ class App extends React.Component<AppProps, AppState> {
 
     this.setState({ showBackdrop: true });
     api
-      .sendFormData("http://localhost:5000/parsecsv", formData)
+      .sendFormData("/parsecsv", formData)
       .then((result: PaymentData[]) =>
         this.setState({ payments: result.map((x) => new Payment(x)) })
       )
@@ -67,7 +67,7 @@ class App extends React.Component<AppProps, AppState> {
     this.setState({ showBackdrop: true });
     const data = JSON.stringify(this.state.payments.map((x) => x.data));
     api
-      .sendJson("http://localhost:5000/save", data)
+      .sendJson("/save", data)
       .then((result: string) => this.setState({ csvBlob: new Blob([result]) }))
       .catch((error: Error) => this.setState({ error: error.message }))
       .finally(() => this.setState({ showBackdrop: false }));
