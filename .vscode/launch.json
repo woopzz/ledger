@@ -8,7 +8,7 @@
             "module": "flask",
             "console": "internalConsole",
             "env": {
-                "FLASK_APP": "ledger/server",
+                "FLASK_APP": "ledger/server/app.py",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "0"
             },
