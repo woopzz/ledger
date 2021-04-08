@@ -56,9 +56,10 @@ class App extends React.Component<AppProps, AppState> {
     this.setState({ showBackdrop: true });
     api
       .sendFormData("/parsecsv", formData)
-      .then((result: PaymentData[]) =>
-        this.setState({ payments: result.map((x) => new Payment(x)) })
-      )
+      .then((result: PaymentData[]) => {
+        const newPayments = result.map((x) => new Payment(x));
+        this.setState({ payments: Payment.join(this.state.payments, newPayments) });
+      })
       .catch((error: Error) => this.setState({ error: error.message }))
       .finally(() => this.setState({ showBackdrop: false }));
   }
