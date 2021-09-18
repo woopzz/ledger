@@ -1,0 +1,17 @@
+{
+  "name": "ledger",
+  "version": "1.0.0",
+  "description": "Help to keep accurate accounts.",
+  "author": "woopzzz",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^14.0.1"
+  },
+  "dependencies": {
+    "csv-parse": "^4.16.3"
+  }
+}
