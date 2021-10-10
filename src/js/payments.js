@@ -1,6 +1,7 @@
 const fs = require('fs');
 const csvParser = require('csv-parse');
 const csvWriter = require('csv-writer');
+const iconv = require('iconv');
 
 const { floatRound } = require('./utils');
 
@@ -104,12 +105,18 @@ function getPaymentsHierarchy () {
 function loadPaymentsFromFile (filePath) {
     return new Promise((resolve, reject) => {
 
-        fs.createReadStream(filePath)
+        let data = fs.readFileSync(filePath)
+
+        try {
+            data = iconv.Iconv('windows-1251', 'utf8').convert(data);
+        } catch {
+            console.error("It's definitely not windows-1251.")
+        }
 
         /**
          * Set up a csvParser instance.
          */
-        .pipe(csvParser({ delimiter: ';', from_line: 2 }))
+        csvParser(data, { delimiter: ';', from_line: 2, quote: "'"})
 
         /**
          * Transform every CSV row to a Payment object.
