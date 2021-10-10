@@ -1,6 +1,5 @@
 const fs = require('fs');
 const csvParser = require('csv-parse');
-const { contextBridge, ipcRenderer } = require('electron');
 const { floatRound } = require('./utils');
 
 /**

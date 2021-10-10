@@ -1,5 +1,5 @@
 const path = require('path');
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, ipcMain, dialog, BrowserWindow, Menu } = require('electron');
 const LedgerMenu = require('./js/menu.js');
 
 function createWindow () {
@@ -22,3 +22,11 @@ function createWindow () {
 }
 
 app.on('ready', createWindow);
+
+ipcMain.on('open-csv-file-dialog', function (ev) {
+    const files = dialog.showOpenDialogSync({
+        properties: ['openFile'],
+        filters: [{ name: 'CSV', extensions: ['csv'] }]
+    });
+    if (files) ev.sender.send('selected-csv-files', files);
+});

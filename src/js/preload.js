@@ -1,9 +1,13 @@
 const { ipcRenderer } = require('electron');
 const { loadPaymentsFromFile, getPaymentsHtml } = require('./payments');
 
-async function actionLoadPayments () {
-    await loadPaymentsFromFile();
+ipcRenderer.on('selected-csv-files', async function (ev, files) {
+    await Promise.all(files.map(() => loadPaymentsFromFile()));
     document.getElementById('payment-tables').innerHTML = getPaymentsHtml();
+});
+
+function actionLoadPayments () {
+    ipcRenderer.send('open-csv-file-dialog');
 }
 
 function actionDumpPayments () {
