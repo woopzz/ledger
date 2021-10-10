@@ -23,10 +23,19 @@ function createWindow () {
 
 app.on('ready', createWindow);
 
-ipcMain.on('open-csv-file-dialog', function (ev) {
+ipcMain.on('run-open-csv-file-dialog', function (ev) {
     const files = dialog.showOpenDialogSync({
         properties: ['openFile'],
         filters: [{ name: 'CSV', extensions: ['csv'] }]
     });
-    if (files) ev.sender.send('selected-csv-files', files);
+
+    if (files) ev.sender.send('open-csv-files', files);
+});
+
+ipcMain.on('run-save-csv-file-dialog', function (ev) {
+    const file = dialog.showSaveDialogSync({
+        'defaultPath': 'payments.csv'
+    });
+
+    if (file) ev.sender.send('save-to-file', file);
 });

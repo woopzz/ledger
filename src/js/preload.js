@@ -1,17 +1,21 @@
 const { ipcRenderer } = require('electron');
-const { loadPaymentsFromFile, getPaymentsHtml } = require('./payments');
+const { loadPaymentsFromFile, savePaymentsToFile, getPaymentsHtml } = require('./payments');
 
-ipcRenderer.on('selected-csv-files', async function (ev, files) {
+ipcRenderer.on('open-csv-files', async function (ev, files) {
     await Promise.all(files.map(() => loadPaymentsFromFile()));
     document.getElementById('payment-tables').innerHTML = getPaymentsHtml();
 });
 
+ipcRenderer.on('save-to-file', async function (ev, filePath) {
+    savePaymentsToFile(filePath).then(() => alert('Успешно сохранено!'));
+});
+
 function actionLoadPayments () {
-    ipcRenderer.send('open-csv-file-dialog');
+    ipcRenderer.send('run-open-csv-file-dialog');
 }
 
 function actionDumpPayments () {
-    alert('dump');
+    ipcRenderer.send('run-save-csv-file-dialog');
 }
 
 ipcRenderer.on('action-load-payments', actionLoadPayments);

@@ -12,6 +12,7 @@
     "electron": "^14.0.1"
   },
   "dependencies": {
-    "csv-parse": "^4.16.3"
+    "csv-parse": "^4.16.3",
+    "csv-writer": "^1.6.0"
   }
 }

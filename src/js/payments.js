@@ -1,5 +1,7 @@
 const fs = require('fs');
 const csvParser = require('csv-parse');
+const csvWriter = require('csv-writer');
+
 const { floatRound } = require('./utils');
 
 /**
@@ -124,6 +126,25 @@ function loadPaymentsFromFile () {
     });
 }
 
+function savePaymentsToFile (filePath) {
+    const header = Object.entries(FIELDS).map(([k, v]) => ({id: v, title: k}));
+
+    const data = Object.values(payments).sort((a, b) => a.date > b.date ? 1 : -1).map(payment => {
+        const res = {};
+        for (const key of Object.values(FIELDS)) {
+            res[key] = payment[key];
+        }
+        return res;
+    });
+
+    const writer = csvWriter.createObjectCsvWriter({
+        path: filePath,
+        header: header
+    })
+
+    return writer.writeRecords(data);
+}
+
 function getPaymentsHtml () {
     let htmlParts = [];
 
@@ -177,5 +198,6 @@ function getPaymentsHtml () {
 
 module.exports =  {
     loadPaymentsFromFile,
+    savePaymentsToFile,
     getPaymentsHtml
 }
