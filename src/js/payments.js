@@ -25,7 +25,7 @@ const FIELDS = {
 }
 
 /**
- * A structure of payment objects from CSV files.
+ * payment doc no => payment info
  */
 const payments = {};
 
@@ -38,6 +38,13 @@ function Payment (values) {
     const techNames = Object.values(FIELDS);
     for (let i = 0; i < techNames.length; i++) {
         self[techNames[i]] = values[i];
+    }
+
+    // docNo is used to indentify a payment, so it's required.
+    if (!self.docNo) {
+        const msg = 'A payment does not have a number!';
+        alert(msg);
+        throw Error(msg);
     }
 
     // We need a Date object to order records by date.
@@ -66,6 +73,30 @@ function Payment (values) {
 }
 
 /**
+ * Build up a hierarchy: year > quarter > payments.
+ */
+function getPaymentsHierarchy () {
+    const res = {};
+
+    for (const payment of Object.values(payments)) {
+        const year = payment.date.getFullYear();
+        const quarter = payment.quarter;
+
+        if (res[year] === undefined) {
+            res[year] = { [quarter]: [payment] };
+        } else {
+            if (res[year][quarter] == undefined) {
+                res[year][quarter] = [payment];
+            } else {
+                res[year][quarter].push(payment);
+            }
+        }
+    }
+
+    return res;
+}
+
+/**
  * Transform CSV rows to Payments objects and store it.
  */
 function loadPaymentsFromFile () {
@@ -84,21 +115,7 @@ function loadPaymentsFromFile () {
          */
         .on('data', row => {
             const payment = new Payment(row);
-
-            const year = payment.date.getFullYear();
-            const quarter = payment.quarter;
-            const month = payment.date.getMonth() + 1;  // a zero-based value
-
-            // Build up a hierarchy: year > quarter > payments.
-            if (payments[year] === undefined) {
-                payments[year] = { [quarter]: [payment] };
-            } else {
-                if (payments[year][quarter] == undefined) {
-                    payments[year][quarter] = [payment];
-                } else {
-                    payments[year][quarter].push(payment);
-                }
-            }
+            payments[payment.docNo] = payment;
         })
 
         .on('end', () => {
@@ -110,15 +127,16 @@ function loadPaymentsFromFile () {
 function getPaymentsHtml () {
     let htmlParts = [];
 
-    for (const year of Object.keys(payments).sort().reverse()) {
+    const paymentsHierarchy = getPaymentsHierarchy();
+    for (const year of Object.keys(paymentsHierarchy).sort().reverse()) {
         let annualTotal = 0.0;
         const quarterBlocks = [];
 
-        for (const quarter of Object.keys(payments[year] || {}).sort()) {
+        for (const quarter of Object.keys(paymentsHierarchy[year] || {}).sort()) {
             let quarterTotal = 0.0;
 
             const paymentLines = [];
-            for (const payment of (payments[year][quarter] || []).sort()) {
+            for (const payment of (paymentsHierarchy[year][quarter] || []).sort()) {
                 quarterTotal += payment.amount;
                 paymentLines.push(`
                     <tr>
