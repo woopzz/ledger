@@ -101,10 +101,10 @@ function getPaymentsHierarchy () {
 /**
  * Transform CSV rows to Payments objects and store it.
  */
-function loadPaymentsFromFile () {
+function loadPaymentsFromFile (filePath) {
     return new Promise((resolve, reject) => {
 
-        fs.createReadStream('./payments.csv')
+        fs.createReadStream(filePath)
 
         /**
          * Set up a csvParser instance.
