@@ -139,7 +139,8 @@ function savePaymentsToFile (filePath) {
 
     const writer = csvWriter.createObjectCsvWriter({
         path: filePath,
-        header: header
+        header: header,
+        fieldDelimiter: ';'
     })
 
     return writer.writeRecords(data);
