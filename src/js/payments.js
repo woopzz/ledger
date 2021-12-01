@@ -1,9 +1,7 @@
-const fs = require('fs');
 const csvParser = require('csv-parse');
 const csvWriter = require('csv-writer');
-const iconv = require('iconv');
 
-const { floatRound } = require('./utils');
+const { floatRound, getFileContent } = require('./utils');
 
 /**
  * (1) The keys equal to the header columns of PrivatBank CSV (in the same order).
@@ -104,14 +102,7 @@ function getPaymentsHierarchy () {
  */
 function loadPaymentsFromFile (filePath) {
     return new Promise((resolve, reject) => {
-
-        let data = fs.readFileSync(filePath)
-
-        try {
-            data = iconv.Iconv('windows-1251', 'utf8').convert(data);
-        } catch {
-            console.error("It's definitely not windows-1251.")
-        }
+        const data = getFileContent(filePath);
 
         /**
          * Set up a csvParser instance.
