@@ -1,7 +1,4 @@
-const csv = require('jquery-csv');
-// const fs = require('fs');
-// const iconv = require('iconv');
-// const { execSync } = require('child_process');
+import csv from 'jquery-csv';
 
 /**
  * (1) The keys equal to the header columns of PrivatBank CSV (in the same order).
@@ -25,9 +22,26 @@ export const FIELDS = {
     'Назначение платежа': 'note',
 }
 
+export async function isWindows1251(file) {
+    const arrBuffer = await file.slice(0, 6).arrayBuffer();
+    const intBuffer = new Uint8Array(arrBuffer);
+
+    const expected = [197, 195, 208, 207, 206, 211];  // ЕГРПОУ
+    for (let i = 0; i < expected.length; i++)
+        if (intBuffer[i] !== expected[i])
+            return false;
+
+    return true;
+}
+
+export async function getWindows1251Content(file) {
+    const arrBuffer = await file.arrayBuffer();
+    const decoder = new TextDecoder('windows-1251');
+    return decoder.decode(arrBuffer);
+}
 
 export function loadFromCSVString(csvString) {
-    const res = csv.toArrays(csvString, { separator: ';', delimeter: '"' });
+    const res = csv.toArrays(csvString, { separator: ';', delimiter: "'" });
     if (res.length > 1 && res[0][0] !== 'ЕГРПОУ') {
         const msg = 'Unexpected CSV data!';
         alert(msg);
@@ -37,7 +51,7 @@ export function loadFromCSVString(csvString) {
 }
 
 export function createCSVString(lines) {
-    return csv.fromArrays(lines, { separator: ';', delimeter: '"' });
+    return csv.fromArrays(lines, { separator: ';', delimiter: "'" });
 }
 
 export function getPaymentsHtml(payments) {
@@ -90,24 +104,6 @@ export function getPaymentsHtml(payments) {
 
     return htmlParts.join('');
 }
-
-// exports.getFileContent = function (filePath) {
-//     // Get the file content.
-//     let data = fs.readFileSync(filePath);
-
-//     // Check file encoding. If it's UTF-8, that's what we need.
-//     const fileCommandShellOutput = execSync('file -bi ' + filePath, { encoding: 'utf8' });
-//     if (fileCommandShellOutput.includes('charset=utf-8')) {
-//         return data;
-//     }
-
-//     // Otherwise we assume that the file has cp1251 encoding.
-//     try {
-//         return iconv.Iconv('windows-1251', 'utf8').convert(data);
-//     } catch {
-//         throw Error("It's definitely not windows-1251.")
-//     }
-// }
 
 // --------------------------------
 // --------------------------------

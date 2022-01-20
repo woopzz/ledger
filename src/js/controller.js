@@ -1,7 +1,7 @@
 import events from './events';
 import Payment from './models/payment';
 import { addPayments, getPayments } from './db';
-import { FIELDS, loadFromCSVString, createCSVString, getPaymentsHtml } from './utils';
+import { FIELDS, isWindows1251, getWindows1251Content, loadFromCSVString, createCSVString, getPaymentsHtml } from './utils';
 
 document.addEventListener(events.ImportBtnClicked, function () {
     const input = document.createElement('input');
@@ -18,7 +18,13 @@ document.addEventListener(events.FileSelected, async function (ev) {
     const file = ev.detail;
     if (!file) return;
 
-    const csvString = await file.text();
+    let csvString;
+    if (await isWindows1251(file)) {
+        csvString = await getWindows1251Content(file);
+    } else {
+        csvString = await file.text();
+    }
+
     const paymentInfoItems = loadFromCSVString(csvString);
     addPayments(paymentInfoItems.map(x => new Payment(x)));
 });
