@@ -41,7 +41,7 @@ export async function getWindows1251Content(file) {
 }
 
 export function loadFromCSVString(csvString) {
-    const res = csv.toArrays(csvString, { separator: ';', delimiter: "'" });
+    const res = csv.toArrays(csvString, getCSVOptions());
     if (res.length > 1 && res[0][0] !== 'ЕГРПОУ') {
         const msg = 'Unexpected CSV data!';
         alert(msg);
@@ -51,7 +51,7 @@ export function loadFromCSVString(csvString) {
 }
 
 export function createCSVString(lines) {
-    return csv.fromArrays(lines, { separator: ';', delimiter: "'" });
+    return csv.fromArrays(lines, getCSVOptions());
 }
 
 export function getPaymentsHtml(payments) {
@@ -135,4 +135,8 @@ function getPaymentsHierarchy(payments) {
 
 function floatRound(number, places = 2) {
     return +(Math.round(number + "e+" + places) + "e-" + places);
+}
+
+function getCSVOptions() {
+    return { separator: ';', delimiter: "'" };
 }
