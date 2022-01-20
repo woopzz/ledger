@@ -1,7 +1,7 @@
 import events from './events';
 import Payment from './models/payment';
 import { addPayments, getPayments } from './db';
-import { FIELDS, isWindows1251, getWindows1251Content, loadFromCSVString, createCSVString, getPaymentsHtml } from './utils';
+import * as utils from './utils';
 
 document.addEventListener(events.ImportBtnClicked, function () {
     const input = document.createElement('input');
@@ -19,19 +19,19 @@ document.addEventListener(events.FileSelected, async function (ev) {
     if (!file) return;
 
     let csvString;
-    if (await isWindows1251(file)) {
-        csvString = await getWindows1251Content(file);
+    if (await utils.isWindows1251(file)) {
+        csvString = await utils.getWindows1251Content(file);
     } else {
         csvString = await file.text();
     }
 
-    const paymentInfoItems = loadFromCSVString(csvString);
+    const paymentInfoItems = utils.loadFromCSVString(csvString);
     addPayments(paymentInfoItems.map(x => new Payment(x)));
 });
 
 document.addEventListener(events.PaymentsUpdated, function () {
     const payments = getPayments();
-    document.getElementById('payment-tables').innerHTML = getPaymentsHtml(payments);
+    document.getElementById('payment-tables').innerHTML = utils.getPaymentsHtml(payments);
 })
 
 document.addEventListener(events.ExportBtnClicked, function () {
@@ -42,15 +42,15 @@ document.addEventListener(events.ExportBtnClicked, function () {
     }
 
     const csvArrays = [];
-    csvArrays.push(Object.keys(FIELDS));
+    csvArrays.push(Object.keys(utils.FIELDS));
     for (let payment of payments) {
         const line = [];
-        for (let key of Object.values(FIELDS))
+        for (let key of Object.values(utils.FIELDS))
             line.push(payment[key]);
         csvArrays.push(line);
     }
 
-    const csvString = createCSVString(csvArrays);
+    const csvString = utils.createCSVString(csvArrays);
     const blob = new Blob([csvString], { type: 'text/csv' });
     const objectURL = window.URL.createObjectURL(blob);
 
