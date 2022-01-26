@@ -1,0 +1,39 @@
+.payments-table {
+  margin-top: var(--indent-4);
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payments-table__cell {
+  padding: var(--indent-2);
+  border-bottom: 1px solid var(--gray-700);
+
+  line-height: 1.5;
+}
+
+.payments-table__cell_year {
+  padding-top: var(--indent-3);
+  padding-bottom: var(--indent-3);
+
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+
+  background: var(--gray-300);
+  border: none;
+}
+
+.payments-table__cell_quarter {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.payments-table__cell_date {
+  width: 100px;
+}
+
+.payments-table__cell_amount {
+  width: 120px;
+  text-align: right;
+}

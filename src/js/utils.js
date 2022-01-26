@@ -70,9 +70,9 @@ export function getPaymentsHtml(payments) {
                 quarterTotal += payment.amount;
                 paymentLines.push(`
                     <tr>
-                        <td class="payment-table-item">${payment.dateStr || ''}</td>
-                        <td class="payment-table-item">${payment.note || ''}</td>
-                        <td class="payment-table-item text-align_right">${payment.amountStr || ''} ${payment.currency || ''}</td>
+                        <td class="payments-table__cell payments-table__cell_date">${payment.dateStr || ''}</td>
+                        <td class="payments-table__cell">${payment.note || ''}</td>
+                        <td class="payments-table__cell payments-table__cell_amount">${payment.amountStr || ''} ${payment.currency || ''}</td>
                     </tr>
                 `);
             }
@@ -80,22 +80,16 @@ export function getPaymentsHtml(payments) {
             annualTotal += quarterTotal;
             quarterBlocks.push(`
                 <tr>
-                    <td class="payment-table-item payment-table-item_quarter font-title-2">квартал ${quarter}</td>
-                    <td class="payment-table-item payment-table-item_quarter text-align_right font-title-2" colspan="2">
-                        ${quarterTotal} (x 0.05 = ${floatRound(quarterTotal * 0.05)})
-                    </td>
+                    <td colspan="3" class="payments-table__cell payments-table__cell_quarter">квартал ${quarter}</td>
                 </tr>
                 ${paymentLines.join('')}
             `);
         }
 
         htmlParts.push(`
-            <table class="payment-table">
+            <table class="payments-table">
                 <tr>
-                    <td class="payment-table-item payment-table-item_year font-title">${year}</td>
-                    <td class="payment-table-item payment-table-item_year text-align_right font-title-2" colspan="2">
-                        ${annualTotal} (x 0.05 = ${floatRound(annualTotal * 0.05)})
-                    </td>
+                    <td colspan="3" class="payments-table__cell payments-table__cell_year">${year}</td>
                 </tr>
                 ${quarterBlocks.join('')}
             </table>

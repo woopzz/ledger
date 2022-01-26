@@ -1,0 +1,9 @@
+.payments {
+  margin: 0 auto;
+  padding: 0;
+  max-width: var(--max-width);
+}
+
+.payments__container {
+  padding: 0 var(--indent-2) var(--indent-4);
+}

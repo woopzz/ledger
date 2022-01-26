@@ -15,18 +15,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="main.css">
-
 </head>
 
 <body>
 
-  <div class="button-block max-width">
-    <input id="input-import" class="hidden" type="file" />
-    <div id="button-import" class="button font-button">Импорт</div>
-    <div id="button-export" class="button font-button margin-left-2">Экспорт</div>
+  <div class="header">
+    <div class="header__container">
+      <input id="input-import" class="hidden" type="file" />
+      <div id="button-import" class="header__button">Импорт</div>
+      <div id="button-export" class="header__button">Экспорт</div>
+      <!-- <div class="state">
+        <div class="state__title">Выбрано 5 платежей:</div>
+        <div class="state__numbers">
+          <span class="state__total">0.0</span> x 0.05 = <span class="state__vat">0.0</span>
+        </div>
+      </div> -->
+    </div>
   </div>
 
-  <div id="payment-tables" class="max-width"></div>
+  <div class="payments">
+    <div id="payment-tables" class="payments__container"></div>
+  </div>
 
   <script src="main.js"></script>
 

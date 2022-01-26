@@ -1,0 +1,8 @@
+.state {
+  font-size: 1.2rem;
+  color: var(--gray-50);
+}
+
+.state__title {
+  font-weight: 500;
+}
