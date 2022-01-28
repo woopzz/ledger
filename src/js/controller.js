@@ -1,6 +1,6 @@
 import events from './events';
 import Payment from './models/payment';
-import { addPayments, getPayments } from './db';
+import { addPayments, getPayments, getPaymentByDocNo } from './db';
 import * as utils from './utils';
 
 document.addEventListener(events.ImportBtnClicked, function () {
@@ -59,4 +59,19 @@ document.addEventListener(events.ExportBtnClicked, function () {
     link.download = 'payments.csv';
     link.click();
     link.onclick = ev => window.URL.revokeObjectURL(objectURL);
+});
+
+document.addEventListener(events.CheckboxUpdated, function (ev) {
+    const { docNo, coef } = ev.detail;
+    const payment = getPaymentByDocNo(docNo);
+    if (!payment) return;
+
+    const totalNode = document.querySelector('[data-role="state-total"]');
+    const vatNode = document.querySelector('[data-role="state-vat"]');
+    const countNode = document.querySelector('[data-role="state-count"]');
+
+    const total = +totalNode.textContent + coef * payment.amount
+    totalNode.textContent = utils.floatRound(total);
+    vatNode.textContent = utils.floatRound(total * 0.05);
+    countNode.textContent = +countNode.textContent + coef;
 });

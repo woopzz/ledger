@@ -59,17 +59,17 @@ export function getPaymentsHtml(payments) {
 
     const paymentsHierarchy = getPaymentsHierarchy(payments);
     for (const year of Object.keys(paymentsHierarchy).sort().reverse()) {
-        let annualTotal = 0.0;
         const quarterBlocks = [];
 
         for (const quarter of Object.keys(paymentsHierarchy[year] || {}).sort()) {
-            let quarterTotal = 0.0;
 
             const paymentLines = [];
             for (const payment of (paymentsHierarchy[year][quarter] || []).sort()) {
-                quarterTotal += payment.amount;
                 paymentLines.push(`
                     <tr>
+                        <td class="payments-table__cell payments-table__cell_checkbox">
+                            <input data-doc-no="${payment.docNo}" class="checkbox" type="checkbox">
+                        </td>
                         <td class="payments-table__cell payments-table__cell_date">${payment.dateStr || ''}</td>
                         <td class="payments-table__cell">${payment.note || ''}</td>
                         <td class="payments-table__cell payments-table__cell_amount">${payment.amountStr || ''} ${payment.currency || ''}</td>
@@ -77,10 +77,9 @@ export function getPaymentsHtml(payments) {
                 `);
             }
 
-            annualTotal += quarterTotal;
             quarterBlocks.push(`
                 <tr>
-                    <td colspan="3" class="payments-table__cell payments-table__cell_quarter">квартал ${quarter}</td>
+                    <td colspan="4" class="payments-table__cell payments-table__cell_quarter">квартал ${quarter}</td>
                 </tr>
                 ${paymentLines.join('')}
             `);
@@ -89,7 +88,7 @@ export function getPaymentsHtml(payments) {
         htmlParts.push(`
             <table class="payments-table">
                 <tr>
-                    <td colspan="3" class="payments-table__cell payments-table__cell_year">${year}</td>
+                    <td colspan="4" class="payments-table__cell payments-table__cell_year">${year}</td>
                 </tr>
                 ${quarterBlocks.join('')}
             </table>
@@ -97,6 +96,10 @@ export function getPaymentsHtml(payments) {
     }
 
     return htmlParts.join('');
+}
+
+export function floatRound(number, places = 2) {
+    return +(Math.round(number + "e+" + places) + "e-" + places);
 }
 
 // --------------------------------
@@ -125,10 +128,6 @@ function getPaymentsHierarchy(payments) {
     }
 
     return res;
-}
-
-function floatRound(number, places = 2) {
-    return +(Math.round(number + "e+" + places) + "e-" + places);
 }
 
 function getCSVOptions() {

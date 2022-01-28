@@ -12,3 +12,7 @@ export function addPayments(payments) {
 export function getPayments() {
     return Object.values(_payments);
 }
+
+export function getPaymentByDocNo(docNo) {
+    return _payments[docNo];
+}

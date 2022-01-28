@@ -138,3 +138,8 @@ body {
   text-align: right;
 }
 
+.payments-table__cell_checkbox .checkbox {
+  margin: 0 auto;
+  display: block;
+}
+

@@ -3,4 +3,5 @@ export default {
     FileSelected: 'LedgerFileSelected',
     PaymentsUpdated: 'LedgerPaymentsUpdated',
     ExportBtnClicked: 'LedgerExportBtnClicked',
+    CheckboxUpdated: 'LedgerCheckboxUpdated',
 };

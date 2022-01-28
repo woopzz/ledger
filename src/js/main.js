@@ -15,4 +15,13 @@ if (document.readyState === 'loading') {
 function onInit() {
     document.getElementById('button-import').addEventListener('click', () => document.dispatchEvent(new Event(events.ImportBtnClicked)));
     document.getElementById('button-export').addEventListener('click', () => document.dispatchEvent(new Event(events.ExportBtnClicked)));
+    document.addEventListener('click', e => {
+        const target = e.target;
+        const docNo = target.dataset.docNo;
+        if (docNo) {
+            const coef = target.checked ? 1 : -1;
+            const ev = new CustomEvent(events.CheckboxUpdated, { detail: { docNo, coef } });
+            document.dispatchEvent(ev);
+        }
+    });
 }
