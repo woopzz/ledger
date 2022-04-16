@@ -1,5 +1,6 @@
 const path = require('path');
 
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const HWP = require('./utils/html_webpack_plugin');
@@ -26,5 +27,11 @@ module.exports = {
     ],
     module: {
         rules: myRules,
+    },
+    optimization: {
+        minimizer: [
+            new CssMinimizerPlugin(),
+            '...',
+        ],
     },
 };
