@@ -1,34 +1,46 @@
-import React from 'react';
+import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { selectPayment, discardPayment } from 'MyStore/payments/actions';
+import { TGetFullYearReturnType, TPayment, TQuarter, TQuartersToPayments } from 'MyStore/payments/types';
+import { TAppDispatch } from 'MyStore/index';
 
-const PaymentTable = ({ year, paymentsByQuarters, selectedDocNums }) => {
-    const dispatch = useDispatch();
+interface IPaymentTableProps {
+    year: TGetFullYearReturnType;
+    paymentsByQuarters: TQuartersToPayments;
+    selectedDocNums: string[];
+}
 
-    const quarters = Object.keys(paymentsByQuarters).sort();
+const PaymentTable: React.FC<IPaymentTableProps> = ({ year, paymentsByQuarters, selectedDocNums }) => {
+    const dispatch = useDispatch<TAppDispatch>();
 
-    const toggleInput = event => {
+    const quarters = Array.from(paymentsByQuarters.keys()).sort();
+
+    const toggleInput = (event: React.ChangeEvent<HTMLInputElement>, docNo: TPayment['docNo']) => {
         const action = event.target.checked ? selectPayment : discardPayment;
-        dispatch(action(event.target.value));
+        dispatch(action(docNo));
     };
+
+    const getQuarterPayments = (quarter: TQuarter): TPayment[] => {
+        return (paymentsByQuarters.get(quarter) || []).sort();
+    }
 
     return (
         <table className="payments-table">
             <tbody>
                 <tr>
-                    <td colSpan="4" className="payments-table__cell payments-table__cell_year">{year}</td>
+                    <td colSpan={4} className="payments-table__cell payments-table__cell_year">{year}</td>
                 </tr>
                 {quarters.map(quarter =>
                     <React.Fragment key={quarter}>
                         <tr>
-                            <td colSpan="4" className="payments-table__cell payments-table__cell_quarter">квартал {quarter}</td>
+                            <td colSpan={4} className="payments-table__cell payments-table__cell_quarter">квартал {quarter}</td>
                         </tr>
-                        {paymentsByQuarters[quarter].sort().map(payment =>
+                        {getQuarterPayments(quarter).map(payment =>
                             <tr key={payment.docNo}>
                                 <td className="payments-table__cell payments-table__cell_checkbox">
                                     <input
                                         defaultChecked={selectedDocNums.includes(payment.docNo)}
-                                        onChange={toggleInput}
+                                        onChange={ev => toggleInput(ev, payment.amountStr)}
                                         value={payment.docNo}
                                         className="checkbox"
                                         type="checkbox" />

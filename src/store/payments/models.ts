@@ -1,4 +1,6 @@
-export const FIELDS = {
+import { TCsvColumn, TPaymentField, TPayment, TPaymentsHierarchy } from './types';
+
+export const FIELDS: Record<TCsvColumn, TPaymentField> = {
     'ЕГРПОУ': 'companyRegistry',
     'МФО': 'bankCode',
     'Счет': 'account',
@@ -19,8 +21,8 @@ export const FIELDS = {
 /**
  * An object representation of a payment which comes from PrivatBank CSV row.
  */
-export function Payment(values) {
-    const self = {};
+export function createPayment(values: string[]): TPayment {
+    const self: any = {};
 
     const techNames = Object.values(FIELDS);
     for (let i = 0; i < techNames.length; i++) {
@@ -35,7 +37,7 @@ export function Payment(values) {
     }
 
     // We need a Date object to order records by date.
-    self.date = new Date(self.dateStr.split(".").reverse().join("-"));
+    self.date = new Date(self.dateStr.split('.').reverse().join('-'));
 
     // We order records by quarter.
     switch (self.date.getMonth()) {
@@ -62,21 +64,22 @@ export function Payment(values) {
 /**
  * Build up a hierarchy: year > quarter > payments.
  */
-export const getPaymentsHierarchy = payments => {
-    const res = {};
+export const getPaymentsHierarchy = (payments: TPayment[]): TPaymentsHierarchy => {
+    const res: TPaymentsHierarchy = new Map();
 
     for (const payment of payments) {
         const year = payment.date.getFullYear();
         const quarter = payment.quarter;
 
-        if (res[year] === undefined) {
-            res[year] = { [quarter]: [payment] };
+        const yearInMap = res.get(year);
+        const quarterInMap = yearInMap?.get(quarter);
+
+        if (quarterInMap !== undefined) {
+            quarterInMap.push(payment);
+        } else if (yearInMap !== undefined) {
+            yearInMap.set(quarter, [payment]);
         } else {
-            if (res[year][quarter] == undefined) {
-                res[year][quarter] = [payment];
-            } else {
-                res[year][quarter].push(payment);
-            }
+            res.set(year, new Map([[quarter, [payment]]]));
         }
     }
 

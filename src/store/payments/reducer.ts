@@ -1,26 +1,29 @@
-import { ACTION_APPEND_PAYMENTS, ACTION_SELECT_PAYMENT, ACTION_DISCARD_PAYMENT } from './actions';
+import { PaymentsActions, TPayment, TPaymentAction } from './types';
 
-const defaultState = {
+interface IPaymentState {
+    list: TPayment[],
+    selectedDocNums: TPayment['docNo'][],
+}
+
+const defaultState: IPaymentState = {
     list: [],
     selectedDocNums: [],
 };
 
-const reducer = (state = defaultState, action) => {
+export const paymentReducer = (state: IPaymentState = defaultState, action: TPaymentAction): IPaymentState => {
     switch (action.type) {
-        case ACTION_APPEND_PAYMENTS:
+        case PaymentsActions.APPEND:
             // Ensure all payments are unique.
             const mapDocNoOnPayment = new Map();
             for (const payment of [...state.list, ...action.payload]) {
                 mapDocNoOnPayment.set(payment.docNo, payment);
             }
             return { ...state, list: Array.from(mapDocNoOnPayment.values()) };
-        case ACTION_SELECT_PAYMENT:
+        case PaymentsActions.SELECT:
             return { ...state, selectedDocNums: [...state.selectedDocNums, action.payload] };
-        case ACTION_DISCARD_PAYMENT:
+        case PaymentsActions.DISCARD:
             return { ...state, selectedDocNums: state.selectedDocNums.filter(x => x !== action.payload) };
         default:
             return state;
     }
 };
-
-export default reducer;

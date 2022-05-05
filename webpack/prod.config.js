@@ -14,7 +14,7 @@ const DIST_FOLDER = path.resolve(__dirname, '../dist');
 
 module.exports = {
     mode: 'production',
-    entry: path.resolve(SRC_FOLDER, 'index.js'),
+    entry: path.resolve(SRC_FOLDER, 'index.tsx'),
     output: {
         filename: 'bundle.[contenthash].js',
         path: DIST_FOLDER,

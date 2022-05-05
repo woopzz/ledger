@@ -3,7 +3,7 @@ const path = require('path');
 const SRC_FOLDER = path.resolve(__dirname, '../../src');
 
 module.exports = {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
         MyComponents: path.resolve(SRC_FOLDER, 'components'),
         MyUtils: path.resolve(SRC_FOLDER, 'utils'),

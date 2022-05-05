@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "ES5",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "MyComponents/*": [
+        "src/components/*"
+      ],
+      "MyUtils/*": [
+        "src/utils/*"
+      ],
+      "MyStore/*": [
+        "src/store/*"
+      ],
+      "MyStyles/*": [
+        "src/css/*"
+      ],
+    }
+  },
+  "include": [
+    "src",
+  ],
+  "allowJs": true,
+  "skipLibCheck": true,
+  "esModuleInterop": true,
+  "allowSyntheticDefaultImports": true,
+  "forceConsistentCasingInFileNames": true,
+  "noFallthroughCasesInSwitch": true,
+  "module": "esnext",
+  "moduleResolution": "node",
+  "resolveJsonModule": true,
+  "isolatedModules": true,
+  "noEmit": true,
+  "lib": [
+    "dom",
+    "dom.iterable",
+    "esnext"
+  ],
+}

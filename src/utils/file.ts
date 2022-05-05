@@ -5,7 +5,7 @@
  *
  * Returns a boolean value.
  */
-export async function isWindows1251(file, startsWith) {
+export async function isWindows1251(file: File, startsWith: number[]): Promise<boolean> {
     const arrBuffer = await file.slice(0, 6).arrayBuffer();
     const intBuffer = new Uint8Array(arrBuffer);
 
@@ -19,7 +19,7 @@ export async function isWindows1251(file, startsWith) {
 /**
  * Returns a DOMString object obtained from the file encoded in Windows-1251.
  */
-export async function getWindows1251Content(file) {
+export async function getWindows1251Content(file: File): Promise<string> {
     const arrBuffer = await file.arrayBuffer();
     const decoder = new TextDecoder('windows-1251');
     return decoder.decode(arrBuffer);

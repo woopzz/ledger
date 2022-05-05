@@ -1,24 +1,25 @@
-import React, { useRef } from 'react';
+import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Calculator from 'MyComponents/Calculator';
+import { Calculator } from 'MyComponents/Calculator';
 import { loadPayments, dumpPayments } from 'MyUtils/payment_csv';
 import { appendPayments } from 'MyStore/payments/actions';
+import { TRootState, TAppDispatch } from 'MyStore/index';
 
-function Header() {
-    const inputEl = useRef(null);
-    const payments = useSelector(state => state.payments.list);
-    const dispatch = useDispatch();
+export const Header: React.FC = () => {
+    const inputEl = React.useRef<HTMLInputElement>(null);
+    const payments = useSelector((state: TRootState) => state.payments.list);
+    const dispatch = useDispatch<TAppDispatch>();
 
-    const onInputChange = async ev => {
-        const file = ev.target.files[0];
-        if (file) {
-            const payments = await loadPayments(file);
+    const onInputChange = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+        const files = ev.target.files;
+        if (files !== null && files.length > 0) {
+            const payments = await loadPayments(files[0]);
             dispatch(appendPayments(payments));
         }
     }
 
-    const onImportBtnClick = () => inputEl.current.click();
+    const onImportBtnClick = () => inputEl.current?.click();
 
     const onExportBtnClick = () => {
         if (payments.length < 1) {
@@ -48,5 +49,3 @@ function Header() {
         </div>
     );
 }
-
-export default Header;
