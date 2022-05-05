@@ -1,13 +1,14 @@
 {
   "name": "ledger",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Help to keep accurate accounts.",
   "author": "woopzzz",
   "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "webpack serve --config ./webpack/dev.config.js",
-    "build": "webpack --config ./webpack/prod.config.js"
+    "build": "webpack --config ./webpack/prod.config.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "jquery-csv": "^1.0.21",
@@ -31,6 +32,7 @@
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.4.1",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.0",
     "mini-css-extract-plugin": "^2.5.2",
     "typescript": "^4.6.3",
     "webpack": "^5.66.0",
