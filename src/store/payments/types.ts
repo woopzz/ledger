@@ -51,24 +51,3 @@ export type TPayment = TCsvPayment & {
     quarter: TQuarter;
     amount: number;
 }
-
-export type TActionAppendPayments = {
-    type: PaymentsActions.APPEND;
-    payload: TPayment[];
-}
-
-export type TActionSelectPayment = {
-    type: PaymentsActions.SELECT;
-    payload: TPayment['docNo'];
-}
-
-export type TActionDiscardPayment = {
-    type: PaymentsActions.DISCARD;
-    payload: TPayment['docNo'];
-}
-
-export type TPaymentAction = (
-    TActionAppendPayments |
-    TActionSelectPayment |
-    TActionDiscardPayment
-)

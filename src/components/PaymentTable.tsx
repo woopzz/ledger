@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { selectPayment, discardPayment } from 'MyStore/payments/actions';
 import { TGetFullYearReturnType, TPayment, TQuarter, TQuartersToPayments } from 'MyStore/payments/types';
-import { TAppDispatch } from 'MyStore/index';
+import { useAppDispatch } from '../hooks';
+import { markPayment, unmarkPayment } from 'MyStore/payments/paymentSlice';
 
 interface IPaymentTableProps {
     year: TGetFullYearReturnType;
@@ -11,12 +10,12 @@ interface IPaymentTableProps {
 }
 
 const PaymentTable: React.FC<IPaymentTableProps> = ({ year, paymentsByQuarters, selectedDocNums }) => {
-    const dispatch = useDispatch<TAppDispatch>();
+    const dispatch = useAppDispatch();
 
     const quarters = Array.from(paymentsByQuarters.keys()).sort();
 
     const toggleInput = (event: React.ChangeEvent<HTMLInputElement>, docNo: TPayment['docNo']) => {
-        const action = event.target.checked ? selectPayment : discardPayment;
+        const action = event.target.checked ? markPayment : unmarkPayment;
         dispatch(action(docNo));
     };
 

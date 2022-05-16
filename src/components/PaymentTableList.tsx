@@ -1,13 +1,13 @@
 import * as React from "react";
-import { useSelector } from 'react-redux';
 
 import { getPaymentsHierarchy } from 'MyStore/payments/models';
 import PaymentTable from 'MyComponents/PaymentTable';
-import { TRootState } from 'MyStore/index';
+import { useAppSelector } from '../hooks';
+import { selectPayments } from 'MyStore/payments/paymentSlice';
 
 export const PaymentTableList: React.FC = () => {
-    const payments = useSelector((state: TRootState) => state.payments.list);
-    const selectedDocNums = useSelector((state: TRootState) => state.payments.selectedDocNums);
+    const payments = useAppSelector(selectPayments);
+    const selectedDocNums = useAppSelector(state => state.payments.selectedDocNums);
 
     const paymentsHierarchy = getPaymentsHierarchy(payments);
 
