@@ -39,7 +39,7 @@ const PaymentTable: React.FC<IPaymentTableProps> = ({ year, paymentsByQuarters, 
                                 <td className="payments-table__cell payments-table__cell_checkbox">
                                     <input
                                         defaultChecked={selectedDocNums.includes(payment.docNo)}
-                                        onChange={ev => toggleInput(ev, payment.amountStr)}
+                                        onChange={ev => toggleInput(ev, payment.docNo)}
                                         value={payment.docNo}
                                         className="checkbox"
                                         type="checkbox" />
