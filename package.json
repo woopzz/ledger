@@ -1,6 +1,6 @@
 {
   "name": "ledger",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Help to keep accurate accounts.",
   "author": "woopzzz",
   "license": "MIT",
@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "webpack serve --config ./webpack/dev.config.js",
     "build": "webpack --config ./webpack/prod.config.js",
+    "lint": "eslint src",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -28,10 +29,14 @@
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
     "@types/react-redux": "^7.1.24",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
     "babel-loader": "^8.2.4",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.4.1",
+    "eslint": "^8.17.0",
+    "eslint-plugin-react": "^7.30.0",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.0",
     "mini-css-extract-plugin": "^2.5.2",

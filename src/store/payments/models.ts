@@ -20,9 +20,28 @@ export const FIELDS: Record<TCsvColumn, TPaymentField> = {
 
 /**
  * An object representation of a payment which comes from PrivatBank CSV row.
+ *
+ * TODO: Still don't know how to provide proper types to create a payment from the input file.
  */
 export function createPayment(values: string[]): TPayment {
-    const self: any = {};
+    const self: TPayment = {
+        'companyRegistry': '',
+        'bankCode': '',
+        'account': '',
+        'currency': '',
+        'docNo': '',
+        'dateStr': '',
+        'agentBankCode': '',
+        'agentBank': '',
+        'agentAccount': '',
+        'agentCompanyRegistry': '',
+        'agent': '',
+        'amountStr': '',
+        'note': '',
+        date: new Date(),
+        quarter: 1,
+        amount: 0.0
+    };
 
     const techNames = Object.values(FIELDS);
     for (let i = 0; i < techNames.length; i++) {
@@ -56,7 +75,7 @@ export function createPayment(values: string[]): TPayment {
     }
 
     // We add amounts, so we need the Number type to do it properly.
-    self.amount = parseFloat(self.amountStr.replaceAll(" ", ""));
+    self.amount = parseFloat(self.amountStr.replace(/ /g, ''));
 
     return self;
 }

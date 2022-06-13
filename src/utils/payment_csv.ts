@@ -31,8 +31,9 @@ export function dumpPayments(payments: TPayment[]): string {
 
     for (const payment of payments) {
         const line = [];
-        for (let key of Object.values(FIELDS))
+        for (const key of Object.values(FIELDS)) {
             line.push(payment[key]);
+        }
         csvArrays.push(line);
     }
 

@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
         link.href = objectURL;
         link.download = 'payments.csv';
         link.click();
-        link.onclick = ev => window.URL.revokeObjectURL(objectURL);
+        link.onclick = () => window.URL.revokeObjectURL(objectURL);
     }
 
     return (
