@@ -10,5 +10,7 @@
   },
   "[jsonc]": {
     "editor.tabSize": 2
-  }
+  },
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single"
 }
