@@ -23,7 +23,7 @@ export const paymentSlice = createSlice({
             for (const payment of [...state.list, ...newPayments]) {
                 mapDocNoOnPayment.set(payment.docNo, payment);
             }
-            state.list = [...state.list, ...Array.from(mapDocNoOnPayment.values())];
+            state.list = Array.from(mapDocNoOnPayment.values());
         },
         markPayment: (state, action: PayloadAction<TPayment['docNo']>) => {
             const docNo = action.payload;
