@@ -18,6 +18,10 @@ export const FIELDS: Record<TCsvColumn, TPaymentField> = {
     'Назначение платежа': 'note',
 }
 
+const getPaymentDate = (payment: TPayment): Date => {
+    return new Date(payment.dateStr.split('.').reverse().join('-'));
+}
+
 /**
  * An object representation of a payment which comes from PrivatBank CSV row.
  *
@@ -38,7 +42,6 @@ export function createPayment(values: string[]): TPayment {
         'agent': '',
         'amountStr': '',
         'note': '',
-        date: new Date(),
         quarter: 1,
         amount: 0.0
     };
@@ -56,10 +59,10 @@ export function createPayment(values: string[]): TPayment {
     }
 
     // We need a Date object to order records by date.
-    self.date = new Date(self.dateStr.split('.').reverse().join('-'));
+    const date = getPaymentDate(self);
 
     // We order records by quarter.
-    switch (self.date.getMonth()) {
+    switch (date.getMonth()) {
         case 0: case 1: case 2:
             self.quarter = 1;
             break;
@@ -87,7 +90,7 @@ export const getPaymentsHierarchy = (payments: TPayment[]): TPaymentsHierarchy =
     const res: TPaymentsHierarchy = new Map();
 
     for (const payment of payments) {
-        const year = payment.date.getFullYear();
+        const year = getPaymentDate(payment).getFullYear();
         const quarter = payment.quarter;
 
         const yearInMap = res.get(year);

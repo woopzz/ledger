@@ -47,7 +47,6 @@ export type TPaymentField = (
 type TCsvPayment = Record<TPaymentField, string>;
 
 export type TPayment = TCsvPayment & {
-    date: Date;
     quarter: TQuarter;
     amount: number;
 }
