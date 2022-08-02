@@ -4,22 +4,7 @@
     "target": "ES5",
     "noImplicitAny": true,
     "removeComments": true,
-    "strict": true,
-    "baseUrl": "./",
-    "paths": {
-      "MyComponents/*": [
-        "src/components/*"
-      ],
-      "MyUtils/*": [
-        "src/utils/*"
-      ],
-      "MyStore/*": [
-        "src/store/*"
-      ],
-      "MyStyles/*": [
-        "src/css/*"
-      ],
-    }
+    "strict": true
   },
   "include": [
     "src",

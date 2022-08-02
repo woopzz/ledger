@@ -60,13 +60,7 @@ const config = {
         clean: true
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        alias: {
-            MyComponents: path.resolve(SRC_FOLDER, 'components'),
-            MyUtils: path.resolve(SRC_FOLDER, 'utils'),
-            MyStore: path.resolve(SRC_FOLDER, 'store'),
-            MyStyles: path.resolve(SRC_FOLDER, 'css')
-        }
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
     plugins: getPlugins(),
     module: {

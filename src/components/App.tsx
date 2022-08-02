@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import { Header } from 'MyComponents/Header';
-import { PaymentTableList } from 'MyComponents/PaymentTableList';
+import { Header } from './Header';
+import { PaymentTableList } from './PaymentTableList';
 
-import 'MyStyles/header.css';
-import 'MyStyles/main.css';
-import 'MyStyles/payments-table.css';
-import 'MyStyles/payments.css';
-import 'MyStyles/state.css';
+import '../css/header.css';
+import '../css/main.css';
+import '../css/payments-table.css';
+import '../css/payments.css';
+import '../css/state.css';
 
 export const App = () => {
     return (

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { TGetFullYearReturnType, TPayment, TQuarter, TQuartersToPayments } from 'MyStore/payments/types';
+import { TGetFullYearReturnType, TPayment, TQuarter, TQuartersToPayments } from '../store/payments/types';
 import { useAppDispatch } from '../hooks';
-import { markPayment, unmarkPayment } from 'MyStore/payments/paymentSlice';
+import { markPayment, unmarkPayment } from '../store/payments/paymentSlice';
 
 interface IPaymentTableProps {
     year: TGetFullYearReturnType;

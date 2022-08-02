@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { floatRound } from '../utils/calc';
 import { useAppSelector } from '../hooks';
-import { selectMarkedPayments } from 'MyStore/payments/paymentSlice';
+import { selectMarkedPayments } from '../store/payments/paymentSlice';
 
 export const Calculator: React.FC = () => {
     const markedPayments = useAppSelector(selectMarkedPayments);

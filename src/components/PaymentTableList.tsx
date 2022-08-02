@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { getPaymentsHierarchy } from 'MyStore/payments/models';
-import PaymentTable from 'MyComponents/PaymentTable';
+import { getPaymentsHierarchy } from '../store/payments/models';
+import PaymentTable from './PaymentTable';
 import { useAppSelector } from '../hooks';
-import { selectPayments } from 'MyStore/payments/paymentSlice';
+import { selectPayments } from '../store/payments/paymentSlice';
 
 export const PaymentTableList: React.FC = () => {
     const payments = useAppSelector(selectPayments);

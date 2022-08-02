@@ -1,8 +1,8 @@
 import * as csv from 'jquery-csv';
 
-import { FIELDS, createPayment } from 'MyStore/payments/models';
-import { TPayment } from 'MyStore/payments/types';
-import * as fileUtils from 'MyUtils/file';
+import { FIELDS, createPayment } from '../store/payments/models';
+import { TPayment } from '../store/payments/types';
+import * as fileUtils from './file';
 
 const csvOptions: csv.TOptions = { separator: ';', delimiter: "'" };
 

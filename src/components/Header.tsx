@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { Calculator } from 'MyComponents/Calculator';
-import { loadPayments, dumpPayments } from 'MyUtils/payment_csv';
+import { Calculator } from './Calculator';
+import { loadPayments, dumpPayments } from '../utils/payment_csv';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { addPayments, selectPayments } from 'MyStore/payments/paymentSlice';
+import { addPayments, selectPayments } from '../store/payments/paymentSlice';
 
 export const Header: React.FC = () => {
     const inputEl = React.useRef<HTMLInputElement>(null);
