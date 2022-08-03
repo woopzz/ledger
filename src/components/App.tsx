@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import { Header } from './Header';
-import { PaymentTableList } from './PaymentTableList';
+import { PaymentsPage } from './PaymentsPage';
 
 import '../css/header.css';
 import '../css/main.css';
@@ -12,8 +11,7 @@ import '../css/state.css';
 export const App = () => {
     return (
         <>
-            <Header />
-            <PaymentTableList />
+            <PaymentsPage />
         </>
     )
 }

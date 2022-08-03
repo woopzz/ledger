@@ -1,11 +1,11 @@
 import * as React from 'react';
-
-import { Calculator } from './Calculator';
-import { loadPayments, dumpPayments } from '../utils/payment_csv';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { addPayments, selectPayments } from '../store/payments/paymentSlice';
+import { dumpPayments, loadPayments } from '../utils/payment_csv';
+import { Calculator } from './Calculator';
+import { PaymentTableList } from './PaymentTableList';
 
-export const Header: React.FC = () => {
+export const PaymentsPage: React.FC = () => {
     const inputEl = React.useRef<HTMLInputElement>(null);
     const payments = useAppSelector(selectPayments);
     const dispatch = useAppDispatch();
@@ -38,13 +38,16 @@ export const Header: React.FC = () => {
     }
 
     return (
-        <div className="header">
-            <div className="header__container">
-                <input onChange={onInputChange} ref={inputEl} className="hidden" type="file" />
-                <div onClick={onImportBtnClick} className="header__button">Импорт</div>
-                <div onClick={onExportBtnClick} className="header__button">Экспорт</div>
-                <Calculator />
+        <>
+            <div className="header">
+                <div className="header__container">
+                    <input onChange={onInputChange} ref={inputEl} className="hidden" type="file" />
+                    <div onClick={onImportBtnClick} className="header__button">Импорт</div>
+                    <div onClick={onExportBtnClick} className="header__button">Экспорт</div>
+                    <Calculator />
+                </div>
             </div>
-        </div>
+            <PaymentTableList />
+        </>
     );
-}
+};
