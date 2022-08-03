@@ -1,24 +1,17 @@
 import * as React from "react";
 
-import { getPaymentsHierarchy } from '../store/payments/models';
 import PaymentTable from './PaymentTable';
 import { useAppSelector } from '../hooks';
 import { selectPayments } from '../store/payments/paymentSlice';
+import { groupBy } from 'lodash';
 
 export const PaymentTableList: React.FC = () => {
     const payments = useAppSelector(selectPayments);
-    const selectedDocNums = useAppSelector(state => state.payments.selectedDocNums);
-
-    const paymentsHierarchy = getPaymentsHierarchy(payments);
-
-    const paymentTables = Array.from(paymentsHierarchy.entries()).sort((a, b) => a[0] - b[0]).map(([year, paymentsByQuarter]) => (
-        <PaymentTable key={year} year={year} paymentsByQuarters={paymentsByQuarter} selectedDocNums={selectedDocNums} />
-    ));
-
+    const paymentsByYear = groupBy(payments, 'year');
     return (
         <div className="payments">
             <div className="payments__container">
-                {paymentTables}
+                {Object.entries(paymentsByYear).map(([year, payments]) => <PaymentTable key={year} year={+year} payments={payments} />)}
             </div>
         </div>
     );

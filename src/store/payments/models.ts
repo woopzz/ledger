@@ -1,4 +1,4 @@
-import { TCsvColumn, TPaymentField, TPayment, TPaymentsHierarchy } from './types';
+import { TCsvColumn, TPaymentField, TPayment } from './types';
 
 export const FIELDS: Record<TCsvColumn, TPaymentField> = {
     'ЕГРПОУ': 'companyRegistry',
@@ -42,6 +42,7 @@ export function createPayment(values: string[]): TPayment {
         'agent': '',
         'amountStr': '',
         'note': '',
+        year: 0,
         quarter: 1,
         amount: 0.0
     };
@@ -60,6 +61,7 @@ export function createPayment(values: string[]): TPayment {
 
     // We need a Date object to order records by date.
     const date = getPaymentDate(self);
+    self.year = date.getFullYear();
 
     // We order records by quarter.
     switch (date.getMonth()) {
@@ -81,29 +83,4 @@ export function createPayment(values: string[]): TPayment {
     self.amount = parseFloat(self.amountStr.replace(/ /g, ''));
 
     return self;
-}
-
-/**
- * Build up a hierarchy: year > quarter > payments.
- */
-export const getPaymentsHierarchy = (payments: TPayment[]): TPaymentsHierarchy => {
-    const res: TPaymentsHierarchy = new Map();
-
-    for (const payment of payments) {
-        const year = getPaymentDate(payment).getFullYear();
-        const quarter = payment.quarter;
-
-        const yearInMap = res.get(year);
-        const quarterInMap = yearInMap?.get(quarter);
-
-        if (quarterInMap !== undefined) {
-            quarterInMap.push(payment);
-        } else if (yearInMap !== undefined) {
-            yearInMap.set(quarter, [payment]);
-        } else {
-            res.set(year, new Map([[quarter, [payment]]]));
-        }
-    }
-
-    return res;
 }

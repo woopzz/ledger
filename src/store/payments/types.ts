@@ -7,9 +7,6 @@ export enum PaymentsActions {
 export type TQuarter = 1 | 2 | 3 | 4;
 export type TGetFullYearReturnType = ReturnType<typeof Date.prototype.getFullYear>;
 
-export type TQuartersToPayments = Map<TQuarter, TPayment[]>;
-export type TPaymentsHierarchy = Map<TGetFullYearReturnType, TQuartersToPayments>;
-
 export type TCsvColumn = (
     'ЕГРПОУ' |
     'МФО' |
@@ -47,6 +44,7 @@ export type TPaymentField = (
 type TCsvPayment = Record<TPaymentField, string>;
 
 export type TPayment = TCsvPayment & {
+    year: number;
     quarter: TQuarter;
     amount: number;
 }
