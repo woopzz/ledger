@@ -1,16 +1,18 @@
 /**
  * It's kind of a hack, but i've not found another simple way to get file encoding.
  * You have to pass a File object and an array of bytes as numbers
- * (e.g. [197, 195, 208, 207, 206, 211] === ЕГРПОУ).
  *
  * Returns a boolean value.
  */
-export async function isWindows1251(file: File, startsWith: number[]): Promise<boolean> {
-    const arrBuffer = await file.slice(0, 6).arrayBuffer();
+export async function isWindows1251(file: File): Promise<boolean> {
+    // ЄДРПОУ
+    const expected = [170, 196, 208, 207, 206, 211];
+
+    const arrBuffer = await file.slice(0, expected.length).arrayBuffer();
     const intBuffer = new Uint8Array(arrBuffer);
 
-    for (let i = 0; i < startsWith.length; i++)
-        if (intBuffer[i] !== startsWith[i])
+    for (let i = 0; i < expected.length; i++)
+        if (intBuffer[i] !== expected[i])
             return false;
 
     return true;

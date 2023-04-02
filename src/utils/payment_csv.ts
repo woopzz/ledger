@@ -7,8 +7,7 @@ import * as fileUtils from './file';
 const csvOptions: csv.TOptions = { separator: ';', delimiter: "'" };
 
 export async function loadPayments(file: File): Promise<TPayment[]> {
-    // ЕГРПОУ
-    const isWin1251 = await fileUtils.isWindows1251(file, [197, 195, 208, 207, 206, 211]);
+    const isWin1251 = await fileUtils.isWindows1251(file);
 
     let csvString: string;
     if (isWin1251) {
@@ -18,7 +17,7 @@ export async function loadPayments(file: File): Promise<TPayment[]> {
     }
 
     const res = csv.toArrays(csvString, csvOptions) as string[][];
-    if (res.length < 2 || res[0][0] !== 'ЕГРПОУ') {
+    if (res.length < 2 || res[0][0] !== 'ЄДРПОУ') {
         return [];
     }
 

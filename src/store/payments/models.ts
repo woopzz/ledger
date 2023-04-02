@@ -1,21 +1,21 @@
 import { TCsvColumn, TPaymentField, TPayment } from './types';
 
 export const FIELDS: Record<TCsvColumn, TPaymentField> = {
-    'ЕГРПОУ': 'companyRegistry',
+    'ЄДРПОУ': 'companyRegistry',
     'МФО': 'bankCode',
-    'Счет': 'account',
+    'Рахунок': 'account',
     'Валюта': 'currency',
 
     'Номер документа': 'docNo',
     'Дата операции': 'dateStr',
-    'МФО банка': 'agentBankCode',
-    'Название банка': 'agentBank',
+    'МФО банку': 'agentBankCode',
+    'Назва банку': 'agentBank',
 
-    'Счет корреспондента': 'agentAccount',
-    'ЕГРПОУ корреспондента': 'agentCompanyRegistry',
-    'Корреспондент': 'agent',
-    'Сумма': 'amountStr',
-    'Назначение платежа': 'note',
+    'Рахунок кореспондента': 'agentAccount',
+    'ЄДРПОУ кореспондента': 'agentCompanyRegistry',
+    'Кореспондент': 'agent',
+    'Сума': 'amountStr',
+    'Призначення платежу': 'note',
 }
 
 const getPaymentDate = (payment: TPayment): Date => {
