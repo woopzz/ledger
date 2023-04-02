@@ -10,7 +10,7 @@ export const Calculator: FC = () => {
 
     return (
         <div className='text-lg text-gray-100'>
-            <div className="font-medium">Выбрано <span>{markedPayments.length}</span> платежей:</div>
+            <div className="font-medium">Вибрано <span>{markedPayments.length}</span> платежів:</div>
             <div>{totalSum.toFixed(2)} x 0.05 = {taxSum.toFixed(2)}</div>
         </div>
     );

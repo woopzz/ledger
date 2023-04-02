@@ -22,7 +22,7 @@ export const PaymentsPage: FC = () => {
 
     const onExportBtnClick = () => {
         if (payments.length < 1) {
-            alert('Nothing to download!');
+            alert('Немає платежів!');
             return;
         }
 
@@ -42,8 +42,8 @@ export const PaymentsPage: FC = () => {
             <div className="px-0 py-6 sticky top-0 bg-gray-600 shadow-md">
                 <div className="max-w-screen-lg mx-auto my-0 px-2 flex items-center">
                     <input onChange={onInputChange} ref={inputEl} className="hidden" type="file" />
-                    <div onClick={onImportBtnClick} className="action-button">Импорт</div>
-                    <div onClick={onExportBtnClick} className="action-button">Экспорт</div>
+                    <div onClick={onImportBtnClick} className="action-button">Імпорт</div>
+                    <div onClick={onExportBtnClick} className="action-button">Експорт</div>
                     <Calculator />
                 </div>
             </div>
