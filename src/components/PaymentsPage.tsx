@@ -1,16 +1,16 @@
-import * as React from 'react';
+import { FC, useRef, ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { addPayments, selectPayments } from '../store/payments/paymentSlice';
 import { dumpPayments, loadPayments } from '../utils/payment_csv';
 import { Calculator } from './Calculator';
 import { PaymentTableList } from './PaymentTableList';
 
-export const PaymentsPage: React.FC = () => {
-    const inputEl = React.useRef<HTMLInputElement>(null);
+export const PaymentsPage: FC = () => {
+    const inputEl = useRef<HTMLInputElement>(null);
     const payments = useAppSelector(selectPayments);
     const dispatch = useAppDispatch();
 
-    const onInputChange = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const onInputChange = async (ev: ChangeEvent<HTMLInputElement>) => {
         const files = ev.target.files;
         if (files !== null && files.length > 0) {
             const payments = await loadPayments(files[0]);

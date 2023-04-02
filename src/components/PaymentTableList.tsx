@@ -1,11 +1,11 @@
-import * as React from "react";
+import { FC } from "react";
 
 import PaymentTable from './PaymentTable';
 import { useAppSelector } from '../hooks';
 import { selectPayments } from '../store/payments/paymentSlice';
 import { groupBy } from 'lodash';
 
-export const PaymentTableList: React.FC = () => {
+export const PaymentTableList: FC = () => {
     const payments = useAppSelector(selectPayments);
     const paymentsByYear = groupBy(payments, 'year');
     return (

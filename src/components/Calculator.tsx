@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { FC } from 'react';
 import { floatRound } from '../utils/calc';
 import { useAppSelector } from '../hooks';
 import { selectMarkedPayments } from '../store/payments/paymentSlice';
 
-export const Calculator: React.FC = () => {
+export const Calculator: FC = () => {
     const markedPayments = useAppSelector(selectMarkedPayments);
     const totalSum = markedPayments.reduce((acum, x) => acum + x.amount, 0);
     const taxSum = floatRound(totalSum * 0.05);

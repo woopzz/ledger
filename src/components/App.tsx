@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { PaymentsPage } from './PaymentsPage';
 
 import '../css/header.css';
