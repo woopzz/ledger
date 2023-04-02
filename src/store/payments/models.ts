@@ -24,28 +24,9 @@ const getPaymentDate = (payment: TPayment): Date => {
 
 /**
  * An object representation of a payment which comes from PrivatBank CSV row.
- *
- * TODO: Still don't know how to provide proper types to create a payment from the input file.
  */
 export function createPayment(values: string[]): TPayment {
-    const self: TPayment = {
-        'companyRegistry': '',
-        'bankCode': '',
-        'account': '',
-        'currency': '',
-        'docNo': '',
-        'dateStr': '',
-        'agentBankCode': '',
-        'agentBank': '',
-        'agentAccount': '',
-        'agentCompanyRegistry': '',
-        'agent': '',
-        'amountStr': '',
-        'note': '',
-        year: 0,
-        quarter: 1,
-        amount: 0.0
-    };
+    const self = {} as TPayment;
 
     const techNames = Object.values(FIELDS);
     for (let i = 0; i < techNames.length; i++) {
