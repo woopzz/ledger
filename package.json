@@ -1,7 +1,6 @@
 {
   "name": "ledger",
   "version": "2.7.0",
-  "description": "Help to keep accurate accounts.",
   "author": "woopzzz",
   "license": "MIT",
   "private": true,
