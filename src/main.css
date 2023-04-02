@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  @apply text-gray-900;
+  @apply bg-gray-50;
+}
+
+.action-button {
+  @apply p-3;
+  @apply mr-4;
+  @apply inline-block;
+  @apply text-gray-100;
+  @apply border-2;
+  @apply border-gray-100;
+  @apply text-lg;
+  @apply font-medium;
+  @apply tracking-wider;
+  @apply uppercase;
+  @apply cursor-pointer;
+}
+
+.action-button:hover {
+  @apply text-gray-900;
+  @apply bg-gray-50;
+}

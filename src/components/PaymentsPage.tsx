@@ -39,11 +39,11 @@ export const PaymentsPage: FC = () => {
 
     return (
         <>
-            <div className="header">
-                <div className="header__container">
+            <div className="px-0 py-6 sticky top-0 bg-gray-600 shadow-md">
+                <div className="max-w-screen-lg mx-auto my-0 px-2 flex items-center">
                     <input onChange={onInputChange} ref={inputEl} className="hidden" type="file" />
-                    <div onClick={onImportBtnClick} className="header__button">Импорт</div>
-                    <div onClick={onExportBtnClick} className="header__button">Экспорт</div>
+                    <div onClick={onImportBtnClick} className="action-button">Импорт</div>
+                    <div onClick={onExportBtnClick} className="action-button">Экспорт</div>
                     <Calculator />
                 </div>
             </div>

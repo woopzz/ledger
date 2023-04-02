@@ -26,19 +26,19 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
     }
 
     return (
-        <table className="payments-table">
+        <table className="w-full border-collapse mt-6">
             <tbody>
                 <tr>
-                    <td colSpan={4} className="payments-table__cell payments-table__cell_year">{year}</td>
+                    <td colSpan={4} className="px-3 py-4 bg-gray-300 text-center text-3xl font-light leading-normal">{year}</td>
                 </tr>
                 {quarters.map(quarter =>
                     <Fragment key={quarter}>
                         <tr>
-                            <td colSpan={4} className="payments-table__cell payments-table__cell_quarter">квартал {quarter}</td>
+                            <td colSpan={4} className="table-cell p-3 border-b border-gray-500 text-xl font-medium leading-normal">квартал {quarter}</td>
                         </tr>
                         {getQuarterPayments(+quarter as TQuarter).map(payment =>
                             <tr key={payment.docNo}>
-                                <td className="payments-table__cell payments-table__cell_checkbox">
+                                <td className="table-cell p-3 mx-auto my-0 border-b border-gray-500 leading-normal">
                                     <input
                                         defaultChecked={selectedDocNums.includes(payment.docNo)}
                                         onChange={ev => toggleInput(ev, payment.docNo)}
@@ -46,9 +46,9 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
                                         className="checkbox"
                                         type="checkbox" />
                                 </td>
-                                <td className="payments-table__cell payments-table__cell_date">{payment.dateStr || ''}</td>
-                                <td className="payments-table__cell">{payment.note || ''}</td>
-                                <td className="payments-table__cell payments-table__cell_amount">{payment.amountStr || ''} {payment.currency || ''}</td>
+                                <td className="table-cell p-3 border-b border-gray-500 leading-normal w-28">{payment.dateStr || ''}</td>
+                                <td className="table-cell p-3 border-b border-gray-500 leading-normal">{payment.note || ''}</td>
+                                <td className="table-cell p-3 border-b border-gray-500 leading-normal w-36 text-right">{payment.amountStr || ''} {payment.currency || ''}</td>
                             </tr>
                         )}
                     </Fragment>
