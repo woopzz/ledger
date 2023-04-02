@@ -10,6 +10,8 @@ const DIST_FOLDER = path.resolve(__dirname, 'dist');
 const DEV_MODE = process.env.NODE_ENV === 'development';
 const PROD_MODE = !DEV_MODE;
 
+const DEV_SERVER_PORT = 3000;
+
 console.log('dev mode:', DEV_MODE);
 
 function getPlugins() {
@@ -100,6 +102,7 @@ PROD_MODE && Object.assign(config, {
 DEV_MODE && Object.assign(config, {
     devtool: 'source-map',
     devServer: {
+        port: DEV_SERVER_PORT,
         static: {
             directory: DIST_FOLDER
         }
