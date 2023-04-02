@@ -50,7 +50,8 @@ function getPlugins() {
 
 const getCssLoaders = () => [
     DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
-    'css-loader'
+    'css-loader',
+    'postcss-loader'
 ];
 
 const config = {
