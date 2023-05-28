@@ -65,3 +65,8 @@ export function createPayment(values: string[]): TPayment {
 
     return self;
 }
+
+export const sortPaymentsByDate = (payments: TPayment[], { reverse = false } = {}) => {
+    const coef = reverse ? -1 : 1;
+    return payments.sort((a, b) => coef * (getPaymentDate(a).getTime() - getPaymentDate(b).getTime()));
+};

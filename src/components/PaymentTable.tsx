@@ -2,6 +2,7 @@ import { FC, ChangeEvent, Fragment } from 'react';
 import { TGetFullYearReturnType, TPayment, TQuarter } from '../store/payments/types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { markPayment, unmarkPayment } from '../store/payments/paymentSlice';
+import { sortPaymentsByDate } from '../store/payments/models';
 import { groupBy } from 'lodash';
 
 interface IPaymentTableProps {
@@ -14,7 +15,7 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
     const dispatch = useAppDispatch();
 
     const paymentsByQuarters = groupBy(payments, x => x.quarter);
-    const quarters = Object.keys(paymentsByQuarters).sort();
+    const quarters = Object.keys(paymentsByQuarters).sort((a, b) => a > b ? -1 : 1);
 
     const toggleInput = (event: ChangeEvent<HTMLInputElement>, docNo: TPayment['docNo']) => {
         const action = event.target.checked ? markPayment : unmarkPayment;
@@ -22,7 +23,7 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
     };
 
     const getQuarterPayments = (quarter: TQuarter): TPayment[] => {
-        return (paymentsByQuarters[quarter] || []).sort();
+        return sortPaymentsByDate(paymentsByQuarters[quarter] || [], { reverse: true });
     }
 
     return (
