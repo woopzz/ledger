@@ -6,8 +6,8 @@ export const FIELDS: Record<TCsvColumn, TPaymentField> = {
     'Рахунок': 'account',
     'Валюта': 'currency',
 
-    'Номер документа': 'docNo',
-    'Дата операции': 'dateStr',
+    'Номер документу': 'docNo',
+    'Дата операції': 'dateStr',
     'МФО банку': 'agentBankCode',
     'Назва банку': 'agentBank',
 
