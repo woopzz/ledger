@@ -1,7 +1,7 @@
-import { FC, ChangeEvent, Fragment } from 'react';
+import { FC, Fragment } from 'react';
 import { TGetFullYearReturnType, TPayment, TQuarter } from '../store/payments/types';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { markPayment, unmarkPayment } from '../store/payments/paymentSlice';
+import { togglePaymentMarked } from '../store/payments/paymentSlice';
 import { sortPaymentsByDate } from '../store/payments/models';
 import { groupBy } from 'lodash';
 
@@ -17,9 +17,8 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
     const paymentsByQuarters = groupBy(payments, x => x.quarter);
     const quarters = Object.keys(paymentsByQuarters).sort((a, b) => a > b ? -1 : 1);
 
-    const toggleInput = (event: ChangeEvent<HTMLInputElement>, docNo: TPayment['docNo']) => {
-        const action = event.target.checked ? markPayment : unmarkPayment;
-        dispatch(action({ docNo, year }));
+    const toggleInput = (payment: TPayment) => {
+        dispatch(togglePaymentMarked(payment));
     };
 
     const getQuarterPayments = (quarter: TQuarter): TPayment[] => {
@@ -42,7 +41,7 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
                                 <td className="table-cell p-3 mx-auto my-0 border-b border-gray-500 leading-normal">
                                     <input
                                         defaultChecked={selectedDocNums.includes(payment.docNo)}
-                                        onChange={ev => toggleInput(ev, payment.docNo)}
+                                        onChange={() => toggleInput(payment)}
                                         value={payment.docNo}
                                         className="checkbox"
                                         type="checkbox" />
