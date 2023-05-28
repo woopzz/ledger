@@ -1,11 +1,11 @@
-import { FC, useRef, ChangeEvent } from 'react';
+import { useRef, ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { addPayments, selectPayments } from '../store/payments/paymentSlice';
+import { addPayments, selectPayments } from '../store';
 import { dumpPayments, loadPayments } from '../utils/payment_csv';
-import { Calculator } from './Calculator';
-import { PaymentTableList } from './PaymentTableList';
+import Calculator from './Calculator';
+import PaymentTableList from './PaymentTableList';
 
-export const PaymentsPage: FC = () => {
+const PaymentsPage = () => {
     const inputEl = useRef<HTMLInputElement>(null);
     const payments = useAppSelector(selectPayments);
     const dispatch = useAppDispatch();
@@ -51,3 +51,5 @@ export const PaymentsPage: FC = () => {
         </>
     );
 };
+
+export default PaymentsPage;

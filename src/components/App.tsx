@@ -1,10 +1,6 @@
-import { PaymentsPage } from './PaymentsPage';
+import PaymentsPage from './PaymentsPage';
 import '../main.css';
 
-export const App = () => {
-    return (
-        <>
-            <PaymentsPage />
-        </>
-    )
-}
+const App = () => <PaymentsPage />;
+
+export default App;

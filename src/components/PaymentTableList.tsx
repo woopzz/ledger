@@ -1,11 +1,9 @@
-import { FC } from "react";
-
+import { groupBy } from 'lodash';
 import PaymentTable from './PaymentTable';
 import { useAppSelector } from '../hooks';
-import { selectPayments } from '../store/payments/paymentSlice';
-import { groupBy } from 'lodash';
+import { selectPayments } from '../store';
 
-export const PaymentTableList: FC = () => {
+const PaymentTableList = () => {
     const payments = useAppSelector(selectPayments);
     const paymentsByYear = groupBy(payments, 'year');
 
@@ -23,3 +21,5 @@ export const PaymentTableList: FC = () => {
         </div>
     );
 }
+
+export default PaymentTableList;

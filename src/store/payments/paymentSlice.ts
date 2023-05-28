@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TPayment, TQuarter } from './types';
-import type { TRootState } from '../index';
 import { flattenDeep } from 'lodash';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { TPayment, TQuarter } from '.';
+import type { TRootState } from '..';
 
 interface IPaymentState {
     list: TPayment[],

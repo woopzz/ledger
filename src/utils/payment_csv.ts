@@ -1,7 +1,7 @@
 import * as csv from 'jquery-csv';
 
-import { FIELDS, createPayment } from '../store/payments/models';
-import { TPayment } from '../store/payments/types';
+import { FIELDS, createPayment } from '../store';
+import type { TPayment } from '../store';
 import * as fileUtils from './file';
 
 const csvOptions: csv.TOptions = { separator: ';', delimiter: "'" };

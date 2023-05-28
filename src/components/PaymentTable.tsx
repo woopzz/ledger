@@ -1,16 +1,15 @@
-import { FC, memo, useCallback } from 'react';
-import { TGetFullYearReturnType, TPayment, TQuarter } from '../store/payments/types';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { togglePaymentMarked } from '../store/payments/paymentSlice';
-import { sortPaymentsByDate } from '../store/payments/models';
+import { memo, useCallback } from 'react';
 import { groupBy } from 'lodash';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { sortPaymentsByDate, togglePaymentMarked } from '../store';
+import type { TGetFullYearReturnType, TPayment, TQuarter } from '../store';
 
 interface IPaymentTableProps {
     year: TGetFullYearReturnType;
     payments: TPayment[];
 }
 
-const PaymentTable: FC<IPaymentTableProps> = ({ year, payments }) => {
+const PaymentTable = ({ year, payments }: IPaymentTableProps) => {
     const paymentsByQuarters = groupBy(payments, x => x.quarter);
     const quarters = Object.keys(paymentsByQuarters).sort((a, b) => a > b ? -1 : 1).map(x => parseInt(x)) as TQuarter[];
     return (

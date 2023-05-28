@@ -1,4 +1,4 @@
-import { TCsvColumn, TPaymentField, TPayment } from './types';
+import type { TCsvColumn, TPaymentField, TPayment } from '.';
 
 export const FIELDS: Record<TCsvColumn, TPaymentField> = {
     'ЄДРПОУ': 'companyRegistry',
