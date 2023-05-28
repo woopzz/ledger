@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, memo, useCallback } from 'react';
 import { TGetFullYearReturnType, TPayment, TQuarter } from '../store/payments/types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { togglePaymentMarked } from '../store/payments/paymentSlice';
@@ -17,9 +17,9 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
     const paymentsByQuarters = groupBy(payments, x => x.quarter);
     const quarters = Object.keys(paymentsByQuarters).sort((a, b) => a > b ? -1 : 1);
 
-    const toggleInput = (payment: TPayment) => {
+    const onClick = useCallback((payment: TPayment) => {
         dispatch(togglePaymentMarked(payment));
-    };
+    }, []);
 
     const getQuarterPayments = (quarter: TQuarter): TPayment[] => {
         return sortPaymentsByDate(paymentsByQuarters[quarter] || [], { reverse: true });
@@ -37,19 +37,7 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
                             <td colSpan={4} className="table-cell p-3 border-b border-gray-500 text-xl font-medium leading-normal">квартал {quarter}</td>
                         </tr>
                         {getQuarterPayments(+quarter as TQuarter).map(payment =>
-                            <tr key={payment.docNo}>
-                                <td className="table-cell p-3 mx-auto my-0 border-b border-gray-500 leading-normal">
-                                    <input
-                                        defaultChecked={selectedDocNums.includes(payment.docNo)}
-                                        onChange={() => toggleInput(payment)}
-                                        value={payment.docNo}
-                                        className="checkbox"
-                                        type="checkbox" />
-                                </td>
-                                <td className="table-cell p-3 border-b border-gray-500 leading-normal w-28">{payment.dateStr || ''}</td>
-                                <td className="table-cell p-3 border-b border-gray-500 leading-normal">{payment.note || ''}</td>
-                                <td className="table-cell p-3 border-b border-gray-500 leading-normal w-36 text-right">{payment.amountStr || ''} {payment.currency || ''}</td>
-                            </tr>
+                            <MemoizedPaymentTableItem key={payment.docNo} payment={payment} checked={selectedDocNums.includes(payment.docNo)} onClick={onClick} />
                         )}
                     </Fragment>
                 )}
@@ -57,5 +45,31 @@ const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
         </table >
     );
 }
+
+interface IPaymentTableItemProps {
+    payment: TPayment;
+    checked: boolean;
+    onClick: (payment: TPayment) => void;
+}
+
+const PaymentTableItem = ({ payment, checked, onClick }: IPaymentTableItemProps) => {
+    return (
+        <tr>
+            <td className="table-cell p-3 mx-auto my-0 border-b border-gray-500 leading-normal">
+                <input
+                    defaultChecked={checked}
+                    onClick={() => onClick(payment)}
+                    value={payment.docNo}
+                    className="checkbox"
+                    type="checkbox" />
+            </td>
+            <td className="table-cell p-3 border-b border-gray-500 leading-normal w-28">{payment.dateStr || ''}</td>
+            <td className="table-cell p-3 border-b border-gray-500 leading-normal">{payment.note || ''}</td>
+            <td className="table-cell p-3 border-b border-gray-500 leading-normal w-36 text-right">{payment.amountStr || ''} {payment.currency || ''}</td>
+        </tr>
+    );
+};
+
+const MemoizedPaymentTableItem = memo(PaymentTableItem);
 
 export default PaymentTable;
