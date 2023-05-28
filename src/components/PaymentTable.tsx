@@ -1,4 +1,4 @@
-import { FC, Fragment, memo, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { TGetFullYearReturnType, TPayment, TQuarter } from '../store/payments/types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { togglePaymentMarked } from '../store/payments/paymentSlice';
@@ -10,41 +10,51 @@ interface IPaymentTableProps {
     payments: TPayment[];
 }
 
-const PaymentTable: FC<IPaymentTableProps> = ({ year, payments, }) => {
-    const selectedDocNums = useAppSelector(state => state.payments.selectedPaymentInfo[year]) || [];
-    const dispatch = useAppDispatch();
-
+const PaymentTable: FC<IPaymentTableProps> = ({ year, payments }) => {
     const paymentsByQuarters = groupBy(payments, x => x.quarter);
-    const quarters = Object.keys(paymentsByQuarters).sort((a, b) => a > b ? -1 : 1);
-
-    const onClick = useCallback((payment: TPayment) => {
-        dispatch(togglePaymentMarked(payment));
-    }, []);
-
-    const getQuarterPayments = (quarter: TQuarter): TPayment[] => {
-        return sortPaymentsByDate(paymentsByQuarters[quarter] || [], { reverse: true });
-    }
-
+    const quarters = Object.keys(paymentsByQuarters).sort((a, b) => a > b ? -1 : 1).map(x => parseInt(x)) as TQuarter[];
     return (
         <table className="w-full border-collapse mt-6">
             <tbody>
                 <tr>
                     <td colSpan={4} className="px-3 py-4 bg-gray-300 text-center text-3xl font-light leading-normal">{year}</td>
                 </tr>
-                {quarters.map(quarter =>
-                    <Fragment key={quarter}>
-                        <tr>
-                            <td colSpan={4} className="table-cell p-3 border-b border-gray-500 text-xl font-medium leading-normal">квартал {quarter}</td>
-                        </tr>
-                        {getQuarterPayments(+quarter as TQuarter).map(payment =>
-                            <MemoizedPaymentTableItem key={payment.docNo} payment={payment} checked={selectedDocNums.includes(payment.docNo)} onClick={onClick} />
-                        )}
-                    </Fragment>
-                )}
+                {quarters.map(quarter => <PaymentTableQuarter key={quarter} year={year} quarter={quarter} payments={paymentsByQuarters[quarter]} />)}
             </tbody>
         </table >
     );
+};
+
+interface IPaymentTableQuarterProps {
+    year: TGetFullYearReturnType;
+    quarter: TQuarter;
+    payments: TPayment[];
 }
+
+const PaymentTableQuarter = ({ year, quarter, payments }: IPaymentTableQuarterProps) => {
+    const selectedDocNums = useAppSelector(state => (state.payments.selectedPaymentInfo[year] || {})[quarter]) || [];
+    const dispatch = useAppDispatch();
+
+    const sortedPayments = sortPaymentsByDate(payments, { reverse: true });
+
+    const onClick = useCallback((payment: TPayment) => {
+        dispatch(togglePaymentMarked(payment));
+    }, []);
+
+    return (
+        <>
+            <tr>
+                <td colSpan={4} className="table-cell p-3 border-b border-gray-500 text-xl font-medium leading-normal">квартал {quarter}</td>
+            </tr>
+            {sortedPayments.map(payment =>
+                <MemoizedPaymentTableItem
+                    key={payment.docNo} payment={payment}
+                    checked={selectedDocNums.includes(payment.docNo)} onClick={onClick}
+                />
+            )}
+        </>
+    );
+};
 
 interface IPaymentTableItemProps {
     payment: TPayment;
