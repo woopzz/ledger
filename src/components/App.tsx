@@ -1,4 +1,4 @@
-import PaymentsPage from './PaymentsPage';
+import PaymentsPage from '../pages/PaymentsPage';
 import '../main.css';
 
 const App = () => <PaymentsPage />;

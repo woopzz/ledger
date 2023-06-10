@@ -2,8 +2,8 @@ import { useRef, ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { addPayments, selectPayments } from '../store';
 import { dumpPayments, loadPayments } from '../utils/payment_csv';
-import Calculator from './Calculator';
-import PaymentTableList from './PaymentTableList';
+import Calculator from '../components/Calculator';
+import PaymentTableList from '../components/PaymentTableList';
 
 const PaymentsPage = () => {
     const inputEl = useRef<HTMLInputElement>(null);
