@@ -4,17 +4,23 @@ import { addPayments, selectPayments } from '../store';
 import { dumpPayments, loadPayments } from '../utils/payment_csv';
 import Calculator from '../components/Calculator';
 import PaymentTableList from '../components/PaymentTableList';
+import { useErrorBoundary } from 'react-error-boundary';
 
 const PaymentsPage = () => {
     const inputEl = useRef<HTMLInputElement>(null);
     const payments = useAppSelector(selectPayments);
     const dispatch = useAppDispatch();
+    const { showBoundary } = useErrorBoundary();
 
     const onInputChange = async (ev: ChangeEvent<HTMLInputElement>) => {
         const files = ev.target.files;
         if (files !== null && files.length > 0) {
-            const payments = await loadPayments(files[0]);
-            dispatch(addPayments(payments));
+            try {
+                const payments = await loadPayments(files[0]);
+                dispatch(addPayments(payments));
+            } catch (error) {
+                showBoundary(error);
+            }
         }
     }
 
@@ -25,16 +31,19 @@ const PaymentsPage = () => {
             alert('Немає платежів!');
             return;
         }
+        try {
+            const csvString = dumpPayments(payments);
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const objectURL = window.URL.createObjectURL(blob);
 
-        const csvString = dumpPayments(payments);
-        const blob = new Blob([csvString], { type: 'text/csv' });
-        const objectURL = window.URL.createObjectURL(blob);
-
-        const link = document.createElement('a');
-        link.href = objectURL;
-        link.download = 'payments.csv';
-        link.click();
-        link.onclick = () => window.URL.revokeObjectURL(objectURL);
+            const link = document.createElement('a');
+            link.href = objectURL;
+            link.download = 'payments.csv';
+            link.click();
+            link.onclick = () => window.URL.revokeObjectURL(objectURL);
+        } catch (error) {
+            showBoundary(error);
+        }
     }
 
     return (
